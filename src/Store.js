@@ -41,6 +41,7 @@ const initValues = {
                 name: "敌人"
             }
         ],
+        order: [0, 1],
         local: [0, 1],
         nowPlayer: 0
     },

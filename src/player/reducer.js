@@ -81,21 +81,11 @@ export default (state = initValues, action) => {
             };
         }
         case ROUND_END: {
-            let players = {...state.players};
-            const lifes = getRoundEndLifes(players);
-            state.order.forEach((playerName) => {
-                    players[playerName] = {
-                        ...players[playerName],
-                        ['cardPlayed']: [],
-                        ['life']: lifes[playerName]
-                    };
-                }
-            );
-            return {
+            const newState = {
                 ...state,
-                ['players']: players,
-                ['isShow']: false
+                ['nowPlayer']: state.order[(state.order.indexOf(state.nowPlayer) + 1) % state.order.length]
             };
+            return newState;
         }
         default: {
             return state;

@@ -6,7 +6,7 @@ const findChessPos = (board, chessId) => {
     for (let i = 0; i < board.length; i++) {
         const row = board[i];
         for (let j = 0; j < row.length; j++) {
-            console.log(typeof(i), typeof(j));
+            // console.log(typeof(i), typeof(j));
             const item = row[j];
             if (item.id === chessId) {
                 selectPos = {
@@ -17,7 +17,7 @@ const findChessPos = (board, chessId) => {
             }
         }
     }
-    console.log(selectPos, chessId, board, typeof(selectPos.x), typeof(selectPos.y));
+    // console.log(selectPos, chessId, board, typeof(selectPos.x), typeof(selectPos.y));
     return selectPos;
 }
 export {findChessPos}

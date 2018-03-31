@@ -30,7 +30,7 @@ class PlayerZone extends Component {
     }
 
     render() {
-        const cards = this.props.cards;
+        // const cards = this.props.cards;
         const player = this.props.player;
         const life = this.props.life;
         const onRemoveCard = this.props.onRemoveCard;
@@ -56,18 +56,18 @@ class PlayerZone extends Component {
                         //life!==0
                         <div>
                             {player}
-                            <div className="cardZone">
-                                {
-                                    cards.map((item) => (
-                                        <CardItem
-                                            key={item.id}
-                                            type={item.type}
-                                            player={player}
-                                            onRemove={() => onRemoveCard(item.id, player)}
-                                        />
-                                    ))
-                                }
-                            </div>
+                            {/*<div className="cardZone">*/}
+                                {/*{*/}
+                                    {/*cards.map((item) => (*/}
+                                        {/*<CardItem*/}
+                                            {/*key={item.id}*/}
+                                            {/*type={item.type}*/}
+                                            {/*player={player}*/}
+                                            {/*onRemove={() => onRemoveCard(item.id, player)}*/}
+                                        {/*/>*/}
+                                    {/*))*/}
+                                {/*}*/}
+                            {/*</div>*/}
                             <div className="lifeZone">
                                 {
                                     Array.from(Array(life), () => '★').map((item) => (
@@ -91,12 +91,12 @@ PlayerZone.propTypes = {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        cards: state.game.players[ownProps.player].cards,
-        life: state.game.players[ownProps.player].life,
-        noCard: state.game.players[ownProps.player].cards.length === 0 && state.game.players[ownProps.player].cardPlayed.length === 0,
-        isComputer: state.game.players[ownProps.player].isComputer,
-        isNowPlayer: state.game.nowPlayer === ownProps.player,
-        nowPlayer: state.game.nowPlayer
+        cards: state.player.players[ownProps.player].cards,
+        life: state.player.players[ownProps.player].life,
+        noCard: false,
+        isComputer: state.player.players[ownProps.player].isComputer,
+        isNowPlayer: state.player.nowPlayer === ownProps.player,
+        nowPlayer: state.player.nowPlayer
     }
 };
 
