@@ -1,4 +1,4 @@
-import {SELECT, MOVE_TO} from './actionTypes.js';
+import {SELECT, MOVE_TO, SET_BOARD} from './actionTypes.js';
 
 export const select = (id) => ({
     type: SELECT,
@@ -10,3 +10,7 @@ export const moveTo = (id) => ({
     id: id
 });
 
+export const setBoard = (board) => ({
+    type: SET_BOARD,
+    board: board
+});

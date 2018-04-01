@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types'
-import {playCard} from '../actions.js';
+import {setLocalPlayer} from '../actions.js';
 import CardItem from './cardItem.js';
 
 class PlayerZone extends Component {
@@ -103,7 +103,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onRemoveCard: (id, player) => {
-            dispatch(playCard(id, player));
+            dispatch(setLocalPlayer(id, player));
         }
     }
 };

@@ -1,1 +1,1 @@
-export const SET_FILTER = 'FILTER/SET';
+export const RESET = 'GAME_CONTROL/RESET';

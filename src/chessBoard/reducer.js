@@ -1,6 +1,7 @@
-import {SELECT, MOVE_TO}from './actionTypes.js';
+import {SELECT, MOVE_TO, SET_BOARD}from './actionTypes.js';
 import {findChessPos} from '../utils';
 import {ChessTypes} from '../constants.js';
+import {createBearFrogBoard} from '../utils/';
 
 function doKill(board, x, y, player) {
     for (let isHorizon = 0; isHorizon < 2; isHorizon++) {
@@ -75,6 +76,13 @@ export default (state = {}, action) => {
             return state.filter((todoItem) => {
                 return todoItem.id !== action.id;
             })
+        }
+        case SET_BOARD: {
+            const board = action.board ? action.board : createBearFrogBoard();
+            return {
+                ...state,
+                ['board']: board
+            };
         }
         default: {
             return state;

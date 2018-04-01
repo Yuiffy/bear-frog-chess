@@ -64,7 +64,7 @@ const mapStateToProps = (state, {chessId, player}) => {
     return {
         beSelected: state.chessBoard.selected && state.chessBoard.selectId == chessId,
         canBeMoveTo: judgeCanBeMoveTo(state.chessBoard, chessId),
-        canBeSelect: state.player.nowPlayer === player
+        canBeSelect: state.player.nowPlayer === player && state.player.local.indexOf(player) != -1
     };
 };
 

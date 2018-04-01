@@ -1,6 +1,5 @@
-import {SET_FILTER} from './actionTypes.js';
+import {RESET} from './actionTypes.js';
 
-export const setFilter = filterType => ({
-  type: SET_FILTER,
-  filter: filterType
+export const reset = () => ({
+  type: RESET
 });

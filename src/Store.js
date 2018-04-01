@@ -3,7 +3,7 @@ import {createStore, combineReducers, applyMiddleware, compose} from 'redux';
 import {reducer as playerReducer} from './player';
 import {reducer as chessBoardReducer} from './chessBoard';
 import {reducer as gameControlReducer} from './gameControl';
-import {ChessTypes} from './constants.js';
+import {getInitState} from './utils/'
 
 const win = window;
 
@@ -13,45 +13,7 @@ const reducer = combineReducers({
     gameControl: gameControlReducer
 });
 
-let chessId = 0;
-const createChess = (player, chessType) => {
-    return {
-        id: chessId++,
-        player: player,
-        type: chessType
-    }
-};
 
-const createBearFrogBoard = () => {
-    const board = [
-        [createChess(1, ChessTypes.NORMAL), createChess(1, ChessTypes.NORMAL), createChess(1, ChessTypes.NORMAL), createChess(1, ChessTypes.NORMAL)],
-        [createChess(1, ChessTypes.NORMAL), createChess(null, ChessTypes.NONE), createChess(null, ChessTypes.NONE), createChess(1, ChessTypes.NORMAL)],
-        [createChess(0, ChessTypes.NORMAL), createChess(null, ChessTypes.NONE), createChess(null, ChessTypes.NONE), createChess(0, ChessTypes.NORMAL)],
-        [createChess(0, ChessTypes.NORMAL), createChess(0, ChessTypes.NORMAL), createChess(0, ChessTypes.NORMAL), createChess(0, ChessTypes.NORMAL)]
-    ];
-    return board;
-};
-const initValues = {
-    player: {
-        players: [
-            {
-                name: "你"
-            },
-            {
-                name: "敌人"
-            }
-        ],
-        order: [0, 1],
-        local: [0, 1],
-        nowPlayer: 0
-    },
-    chessBoard: {
-        board: createBearFrogBoard(),
-        selected: false,
-        selectId: -1
-    },
-    gameControl: {}
-};
 
 const middlewares = [];
 if (process.env.NODE_ENV !== 'production') {
@@ -63,4 +25,4 @@ const storeEnhancers = compose(
     (win && win.devToolsExtension) ? win.devToolsExtension() : (f) => f,
 );
 
-export default createStore(reducer, initValues, storeEnhancers);
+export default createStore(reducer, getInitState(), storeEnhancers);

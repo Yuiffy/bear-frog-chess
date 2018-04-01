@@ -1,6 +1,6 @@
 .chess-block {
-    width: 24vmin;
-    height: 24vmin;
+    width: 23vmin;
+    height: 23vmin;
     background-color: gainsboro;
     display: inline-block;
     border: 1px solid;
