@@ -4,8 +4,11 @@ import './style.css';
 import {Link, Switch, Route} from "react-router-dom";
 import {setLocalPlayer} from "../../player/actions.js";
 import {setBoard} from "../../chessBoard/actions.js";
-import {reset} from "../actions.js";
+import {reset, updateSocket} from "../actions.js";
 import SocketClient from "../../utils/SocketClient"
+import {roundEnd} from "../../player/actions";
+import {moveTo} from "../../chessBoard/actions";
+import {socketContainer} from "../../utils";
 
 class PlayControl extends Component {
 
@@ -16,16 +19,16 @@ class PlayControl extends Component {
         if (props.roomId) {
             this.props.setLocalPlayer([parseInt(props.player)]);
 
-            var host = "ws://localhost:5000/bbb";
-            var ws = new WebSocket(host);
-            ws.onmessage = function (event) {
+            var host = process.env.REACT_APP_WS_HOST + props.roomId;
+            const socketClient = new SocketClient();
+            socketClient.connect(host);
+            socketClient.setOnMessage((event) => {
                 console.log(event, event.data, JSON.parse(event.data));
-                alert(event.data);
-            };
-            // const send = () => {
-            //     ws.send(JSON.stringify({fuck: "dog"}));
-            // };
-
+                // alert(event.data);
+                const data = JSON.parse(event.data);
+                props.onReceiveBoard(data);
+            });
+            socketContainer.setSocketClient(socketClient);
         } else {
             this.props.setLocalPlayer([0, 1]);
         }
@@ -90,6 +93,14 @@ const mapDispatchToProps = (dispatch) => {
         },
         reset: () => {
             dispatch(reset());
+        },
+        onReceiveBoard: (board) => {
+            console.log("will dispatch, board=", board);
+            dispatch(setBoard(board));
+            dispatch(roundEnd());
+        },
+        updateSocket: (socketClient) => {
+            dispatch(updateSocket(socketClient));
         }
     };
 };

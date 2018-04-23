@@ -2,6 +2,7 @@
  * Created by yuiff on 2018/3/31.
  */
 import {ChessTypes} from '../constants.js';
+
 const findChessPos = (board, chessId) => {
     let selectPos = {};
     for (let i = 0; i < board.length; i++) {
@@ -61,9 +62,21 @@ const getInitState = () => {
             selected: false,
             selectId: -1
         },
-        gameControl: {}
+        gameControl: {
+            socketClient: null
+        }
     };
     return initValues;
 };
 
-export {findChessPos, createBearFrogBoard, getInitState}
+const socketContainer = {
+    socketClient: null,
+    setSocketClient: (s) => {
+        this.socketClient = s
+    },
+    getSocketClient: () => {
+        return this.socketClient;
+    }
+};
+
+export {findChessPos, createBearFrogBoard, getInitState, socketContainer}

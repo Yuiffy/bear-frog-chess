@@ -1,5 +1,5 @@
-import {SELECT, MOVE_TO, SET_BOARD}from './actionTypes.js';
-import {findChessPos} from '../utils';
+import {SELECT, MOVE_TO, SET_BOARD} from './actionTypes.js';
+import {findChessPos, socketContainer} from '../utils';
 import {ChessTypes} from '../constants.js';
 import {createBearFrogBoard} from '../utils/';
 
@@ -41,6 +41,7 @@ function doKill(board, x, y, player) {
 
     }
 }
+
 export default (state = {}, action) => {
     switch (action.type) {
         case SELECT: {
@@ -66,6 +67,7 @@ export default (state = {}, action) => {
             newBoard[x][y] = temp;
             const player = newBoard[x][y].player;
             doKill(newBoard, x, y, player);
+            socketContainer.getSocketClient().send(newBoard);
             return {
                 ...state,
                 ['board']: newBoard,
@@ -78,6 +80,7 @@ export default (state = {}, action) => {
             })
         }
         case SET_BOARD: {
+            console.log("SET_BOARD!REDUCER, got action:", action);
             const board = action.board ? action.board : createBearFrogBoard();
             return {
                 ...state,

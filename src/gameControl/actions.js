@@ -1,5 +1,11 @@
-import {RESET} from './actionTypes.js';
+import {RESET, UPDATE_SOCKET} from './actionTypes.js';
 
 export const reset = () => ({
-  type: RESET
+    type: RESET
 });
+
+export const updateSocket = (socketClient) => ({
+    socketClient,
+    type: UPDATE_SOCKET
+});
+

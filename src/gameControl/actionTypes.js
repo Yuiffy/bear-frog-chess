@@ -1,1 +1,2 @@
 export const RESET = 'GAME_CONTROL/RESET';
+export const UPDATE_SOCKET = 'GAME_CONTROL/UPDATE_SOCKET';
