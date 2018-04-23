@@ -15,15 +15,17 @@ class PlayControl extends Component {
         this.props.setBoard();
         if (props.roomId) {
             this.props.setLocalPlayer([parseInt(props.player)]);
-            // const socketClient = new SocketClient();
-            // socketClient.connect().then(
-            //     (msg) => {
-            //         console.log("socket success", msg);
-            //         socketClient.emit('SendMessage', "123");
-            //     }
-            //     ,
-            //     (msg) => console.log("socket fail", msg)
-            // );
+
+            var host = "ws://localhost:5000/bbb";
+            var ws = new WebSocket(host);
+            ws.onmessage = function (event) {
+                console.log(event, event.data, JSON.parse(event.data));
+                alert(event.data);
+            };
+            // const send = () => {
+            //     ws.send(JSON.stringify({fuck: "dog"}));
+            // };
+
         } else {
             this.props.setLocalPlayer([0, 1]);
         }
