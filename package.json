@@ -3,11 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
-    "redux-devtools": "^3.4.1",
-    "redux-immutable-state-invariant": "^2.1.0",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.11.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.7.0",
+    "gh-pages": "^1.1.0",
     "npm-lifecycle": "^2.0.1",
     "react-scripts": "1.1.1",
-    "gh-pages": "^1.1.0"
+    "redux-devtools": "^3.4.1",
+    "redux-immutable-state-invariant": "^2.1.0"
   },
   "dependencies": {
     "prop-types": "latest",
@@ -28,10 +33,5 @@
     "deploy": "gh-pages -d build"
   },
   "homepage": "https://www.yuiffy.com/bear-frog-chess",
-  "proxy": {
-    "/socket": {
-      "target": "ws://echo.websocket.org",
-      "ws": true
-    }
-  }
+  "proxy": "http://localhost:5001"
 }

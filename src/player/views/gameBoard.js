@@ -4,11 +4,9 @@ import PublicZone from './publicZone.js';
 
 import './style.css';
 
-export default () => {
-    return (
-        <div className="">
-            <PublicZone />
-        </div>
-    );
-}
+export default () => (
+  <div className="">
+    <PublicZone />
+  </div>
+);
 

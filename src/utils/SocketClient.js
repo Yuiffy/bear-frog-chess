@@ -1,11 +1,17 @@
 // const host = 'http://localhost:3000';
 // const socketPath = '/socket';
 
-export default class socketAPI {
+export default class SocketAPI {
     ws;
 
     connect(host) {
         this.ws = new WebSocket(host);
+        this.ws.onclose = (e)=>{
+          alert("webSocket onClose!"+e);
+        };
+        this.ws.onerror = (e)=>{
+          alert("webSocket onError!"+e);
+        }
     }
 
     disconnect() {
@@ -30,3 +36,11 @@ export default class socketAPI {
     //     });
     // }
 }
+
+const gameMessage = (board, nowPlayer, needMessage=false)=>{
+  return {
+    board, nowPlayer, needMessage
+  };
+};
+
+export {gameMessage};
