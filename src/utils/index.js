@@ -45,10 +45,10 @@ const getInitState = () => {
     player: {
       players: [
         {
-          name: '你',
+          name: '黑方',
         },
         {
-          name: '敌人',
+          name: '红方',
         },
       ],
       order: [0, 1],
@@ -61,7 +61,6 @@ const getInitState = () => {
       selectId: -1,
     },
     gameControl: {
-      socketClient: null,
     },
   };
   return initValues;

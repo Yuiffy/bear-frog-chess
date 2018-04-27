@@ -28,8 +28,8 @@ class PlayControl extends Component {
         // alert(event.data);
         const data = JSON.parse(event.data);
         if (data.needMessage) {
-          const { board, nowPlayer } = this.props;
-          socketClient.send(gameMessage(board, nowPlayer, false));
+          const { board, nowPlayer ,gameOver } = this.props;
+          if(!gameOver)socketClient.send(gameMessage(board, nowPlayer, false));
         } else {
           props.onReceiveBoard(data);
         }
@@ -40,12 +40,14 @@ class PlayControl extends Component {
     }
   }
 
-  componentDidUpdate(preProps) {
-    const { gameOver, winners } = this.props;
-    console.log(this.props);
-    if (gameOver) {
+    componentWillReceiveProps (nextProps) {
+    const { gameOver : preGameOver  } = this.props;
+    const {gameOver, winners} = nextProps;
+    console.log('judge gameOver! ',this.props, gameOver, preGameOver);
+    if (gameOver && !preGameOver) {
       alert(`游戏结束！胜者是${winners}`);
-      window.location.reload();
+      // window.location.reload();
+        nextProps.resetAll();
     }
   }
 
@@ -103,8 +105,8 @@ const mapDispatchToProps = dispatch => ({
   setBoard: (board) => {
     dispatch(setBoard(board));
   },
-  reset: () => {
-    dispatch(reset());
+  resetAll: () => {
+    dispatch(setBoard());
   },
   onReceiveBoard: (data) => {
     const { board, nowPlayer, isRoundEnd } = data;
@@ -112,9 +114,6 @@ const mapDispatchToProps = dispatch => ({
     dispatch(setBoard(board));
     if (nowPlayer || nowPlayer === 0) dispatch(setLocalPlayer(null, nowPlayer));
     if (isRoundEnd) dispatch(roundEnd());
-  },
-  updateSocket: (socketClient) => {
-    dispatch(updateSocket(socketClient));
   },
 });
 
