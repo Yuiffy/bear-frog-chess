@@ -2,6 +2,7 @@ import { SELECT, MOVE_TO, SET_BOARD } from './actionTypes.js';
 import { findChessPos, socketContainer } from '../utils';
 import { ChessTypes } from '../constants.js';
 import { createBearFrogBoard } from '../utils/';
+import { gameMessage } from '../utils/SocketClient';
 
 function doKill(board, x, y, player) {
   for (let isHorizon = 0; isHorizon < 2; isHorizon++) {
@@ -65,7 +66,10 @@ export default (state = {}, action) => {
       newBoard[x][y] = temp;
       const player = newBoard[x][y].player;
       doKill(newBoard, x, y, player);
-      if (socketContainer.getSocketClient()) { socketContainer.getSocketClient().send(newBoard); }
+      if (socketContainer.getSocketClient()) {
+        socketContainer.getSocketClient()
+          .send(gameMessage(newBoard, null, true));
+      }
       return {
         ...state,
         board: newBoard,

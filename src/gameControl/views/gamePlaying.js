@@ -20,13 +20,20 @@ class PlayControl extends Component {
       const host = process.env.REACT_APP_WS_HOST + props.roomId;
       const socketClient = new SocketClient();
       socketClient.connect(host);
+      socketClient.setOnOpen(() => {
+        socketClient.send(gameMessage(null, null, null, true));
+      });
       socketClient.setOnMessage((event) => {
         console.log(event, event.data, JSON.parse(event.data));
         // alert(event.data);
         const data = JSON.parse(event.data);
-        props.onReceiveBoard(data);
+        if (data.needMessage) {
+          const { board, nowPlayer } = this.props;
+          socketClient.send(gameMessage(board, nowPlayer, false));
+        } else {
+          props.onReceiveBoard(data);
+        }
       });
-      socketClient.send(gameMessage(null, null, true));
       socketContainer.setSocketClient(socketClient);
     } else {
       this.props.setLocalPlayer([0, 1]);
@@ -81,6 +88,8 @@ const mapStateToProps = (state) => {
   return {
     gameOver,
     winners: gameOver ? winners : [],
+    board,
+    nowPlayer: state.player.nowPlayer,
   };
 };
 
@@ -98,11 +107,11 @@ const mapDispatchToProps = dispatch => ({
     dispatch(reset());
   },
   onReceiveBoard: (data) => {
-    const { board, nowPlayer } = data;
-    console.log('will dispatch, board=', board);
+    const { board, nowPlayer, isRoundEnd } = data;
+    console.log('will dispatch, board=', board, nowPlayer, isRoundEnd);
     dispatch(setBoard(board));
-    dispatch(setLocalPlayer(null, nowPlayer));
-    dispatch(roundEnd());
+    if (nowPlayer || nowPlayer === 0) dispatch(setLocalPlayer(null, nowPlayer));
+    if (isRoundEnd) dispatch(roundEnd());
   },
   updateSocket: (socketClient) => {
     dispatch(updateSocket(socketClient));
