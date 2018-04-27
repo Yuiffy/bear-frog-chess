@@ -10,17 +10,20 @@
     background-color: yellow;
 }
 
-.chess-block.can-be-move-to{
+.chess-block.can-be-move-to {
     background-color: palegreen;
 }
 
-.chess-block.can-be-select{
+.chess-block.can-be-select {
     background-color: azure;
 }
 
 .chess-item {
     width: 100%;
     height: 100%;
+    position: relative;
+    transition-property: all;
+    transition-duration: 1s;
 }
 
 .row {
@@ -34,6 +37,30 @@
     color: darkred;
 }
 
-.chess-board{
+.chess-board {
     display: inline-grid;
+}
+
+.chess-item.leave {
+    top: -100vh
+}
+
+.chess-item.die {
+    top: -100vh
+}
+
+.chess-item.normal-none {
+    top: -100vh
+}
+
+.chess-item.arrive {
+    top: 0vh;
+}
+
+.chess-item.normal-display {
+    top: 0vh;
+}
+
+.chess-item.hide {
+    display: none;
 }

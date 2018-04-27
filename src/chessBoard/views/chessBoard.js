@@ -13,9 +13,9 @@ const ChessBoard = ({ board, onSelect, onMoveTo }) => {
       {
                 board.map(row => (
                   <div className="row" key={rowKey++}>
-                    {row.map(item => (
+                    {row.map((item, index) => (
                       <ChessItem
-                        key={item.id}
+                        key={index}
                         chessId={item.id}
                         player={item.player}
                         type={item.type}

@@ -39,6 +39,7 @@ function doKill(board, x, y, player) {
     if (maxAllLength == 3 && maxSelfLength == 2 && selfSize == 2 && enemyList.length == 1) {
       for (let j = 0; j < enemyList.length; j++) {
         enemyList[j].type = ChessTypes.NONE;
+        enemyList[j].typeChangeInfo = {reason:"DIE"};
         enemyList[j].player = -1;
       }
     }
@@ -61,9 +62,14 @@ export default (state = {}, action) => {
       console.log(now.x, now.y, x, y, state.selectId, action.id, state.board);
       const newBoard = state.board.map(row =>
         row.map(item => ({ ...item })));
+      // (now.x,now.y) move to x,y
       const temp = newBoard[now.x][now.y];
       newBoard[now.x][now.y] = newBoard[x][y];
       newBoard[x][y] = temp;
+
+    newBoard[now.x][now.y].typeChangeInfo = {reason:"LEAVE", x,y};
+    newBoard[x][y].typeChangeInfo = {reason:"ARRIVE", x:now.x, y:now.y};
+
       const player = newBoard[x][y].player;
       doKill(newBoard, x, y, player);
       if (socketContainer.getSocketClient()) {
