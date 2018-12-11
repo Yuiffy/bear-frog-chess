@@ -8,6 +8,8 @@ import SocketClient, { gameMessage } from '../../utils/SocketClient';
 import { roundEnd, setLocalPlayer } from '../../player/actions';
 import { moveTo } from '../../chessBoard/actions';
 import { socketContainer } from '../../utils';
+import { getNextPosList } from '../../chessBoard/views/chessItem';
+import { ChessTypes } from '../../constants';
 
 class PlayControl extends Component {
   constructor(props) {
@@ -28,8 +30,8 @@ class PlayControl extends Component {
         // alert(event.data);
         const data = JSON.parse(event.data);
         if (data.needMessage) {
-          const { board, nowPlayer ,gameOver } = this.props;
-          if(!gameOver)socketClient.send(gameMessage(board, nowPlayer, false));
+          const { board, nowPlayer, gameOver } = this.props;
+          if (!gameOver) socketClient.send(gameMessage(board, nowPlayer, false));
         } else {
           props.onReceiveBoard(data);
         }
@@ -40,14 +42,14 @@ class PlayControl extends Component {
     }
   }
 
-    componentWillReceiveProps (nextProps) {
-    const { gameOver : preGameOver  } = this.props;
-    const {gameOver, winners} = nextProps;
-    console.log('judge gameOver! ',this.props, gameOver, preGameOver);
+  componentWillReceiveProps(nextProps) {
+    const { gameOver: preGameOver } = this.props;
+    const { gameOver, winners } = nextProps;
+    console.log('judge gameOver! ', this.props, gameOver, preGameOver);
     if (gameOver && !preGameOver) {
       alert(`游戏结束！胜者是${winners}`);
       // window.location.reload();
-        nextProps.resetAll();
+      nextProps.resetAll();
     }
   }
 
@@ -68,10 +70,55 @@ class PlayControl extends Component {
   }
 }
 
+const flatten = arr => arr.reduce((pre, val) => pre.concat(Array.isArray(val) ? flatten(val) : val), []);
+
+function judgeGameOver(playerChessCount, player, board) {
+  const {players, order} = player;
+  let gameOver = false;
+  let winners = [];
+  // 判断是否只剩1棋，输掉
+  for (const key in playerChessCount) {
+    if (playerChessCount[key] <= 1) {
+      gameOver = true;
+    } else if (players[parseInt(key)]) winners.push(players[parseInt(key)].name);
+  }
+  if (!gameOver) {
+    // 判断是否无棋可走，输掉
+    winners = [];
+    const playerCanMoveCount = { ...order };
+    for (const key in playerCanMoveCount) playerCanMoveCount[key] = {};
+    for (let i=0; i < board.length; i++){
+      for(let j=0; j < board[i].length; j++){
+        if(board[i][j].type === ChessTypes.NORMAL){
+          const moveList = getNextPosList(board, i, j);
+          const player = board[i][j].player;
+          moveList.forEach((id)=>{playerCanMoveCount[player][id]=true;});
+        }
+      }
+    }
+
+    const overs = {};
+    for (const key in playerCanMoveCount) {
+      if (Object.keys(playerCanMoveCount[key]) <= 0) {
+        gameOver = true;
+        if (players[parseInt(key)]) overs[key]=true;
+      }
+    }
+    if(gameOver)
+      for (const key in playerCanMoveCount) {
+        console.log(key, playerCanMoveCount[key], overs[key]);
+        if (players[parseInt(key)] && !overs[key]) winners.push(players[parseInt(key)].name);
+      }
+    console.log("playerCanMoveCount",board,playerCanMoveCount, overs);
+  }
+  return {
+    gameOver,
+    winners
+  };
+}
 
 const mapStateToProps = (state) => {
   const board = state.chessBoard.board;
-  const flatten = arr => arr.reduce((pre, val) => pre.concat(Array.isArray(val) ? flatten(val) : val), []);
   const flatBoard = flatten(board);
 
   const playerChessCount = { ...state.player.order };
@@ -79,13 +126,7 @@ const mapStateToProps = (state) => {
   for (const i in flatBoard) {
     playerChessCount[flatBoard[i].player]++;
   }
-  let gameOver = false;
-  const winners = [];
-  for (const key in playerChessCount) {
-    if (playerChessCount[key] <= 1) {
-      gameOver = true;
-    } else if (state.player.players[parseInt(key)]) winners.push(state.player.players[parseInt(key)].name);
-  }
+  const { gameOver, winners } = judgeGameOver(playerChessCount, state.player, board);
   console.log(flatBoard, gameOver);
   return {
     gameOver,

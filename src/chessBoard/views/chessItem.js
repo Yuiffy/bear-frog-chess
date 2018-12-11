@@ -96,4 +96,4 @@ const mapStateToProps = (state, {chessId, player}) => ({
 });
 
 export default connect(mapStateToProps)(ChessItem);
-
+export { getNextPosList };
