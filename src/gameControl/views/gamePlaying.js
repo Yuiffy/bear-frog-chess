@@ -64,6 +64,7 @@ class PlayControl extends Component {
           {roomId ? <div>房间{roomId}</div> : ''}
           <div>{chessBoard}</div>
           <div>{player}</div>
+          <div>规则：本回合移动的己方棋子和其移动后相邻的棋子，两个棋子组成炮台，杀死处在该炮台连线上相邻的敌方棋子。如果这条直线上有4个棋子则杀不掉。当有玩家只剩1颗棋子或者无法行动时输掉。</div>
         </div>
       </div>
     );
