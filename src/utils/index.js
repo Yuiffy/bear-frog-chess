@@ -66,12 +66,18 @@ const getInitState = () => {
   return initValues;
 };
 
-const socketContainer = {
-  socketClient: null,
-  setSocketClient: (s) => {
+class SocketContainerClass{
+  constructor(){
+    this.socketClient = null;
+    this.setSocketClient = this.setSocketClient.bind(this);
+    this.getSocketClient = this.getSocketClient.bind(this);
+  }
+  setSocketClient(s) {
     this.socketClient = s;
-  },
-  getSocketClient: () => this.socketClient,
-};
+  }
+  getSocketClient () {return this.socketClient}
+}
+
+const socketContainer = new SocketContainerClass();
 
 export { findChessPos, createBearFrogBoard, getInitState, socketContainer };

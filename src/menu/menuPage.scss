@@ -1,0 +1,49 @@
+//@import "~@material/button/mdc-button";
+.menu-page{
+  display: flex;
+  //width: 100vw;
+  height: 97vh;
+  width: 50vw;
+  padding: 0 25vw;
+  overflow: hidden;
+  //background: black;
+}
+
+.title-field{
+  flex: 1 1 200px;
+  display: flex;
+  justify-content:center;
+  align-items: center;
+  height: 100%;
+  .page-title{
+    font-size: 8vh;
+  }
+}
+.right-field{
+  flex: 1 1 200px;
+  display: flex;
+  justify-content:center;
+  align-items: center;
+  height: 100%;
+}
+.page-select-list {
+    //margin-top: 30vh;
+  //margin-right: -74.6706px;
+  margin-top: 30vh;
+  transform: perspective(30em) rotateY(-10deg) scale(0.9) translateY(calc((-80vh + 429.356px) * 0.5));
+  .my-button{
+    font-size: 6vh;
+    background-color: #fff;
+    opacity: .9;
+    height: 10vh;
+    width: 50vh;
+    margin: 8px 0;
+    border: black 1px solid;
+    &:hover{
+      //background: red;
+    }
+    &:active{
+      //background: green
+    }
+  }
+}
