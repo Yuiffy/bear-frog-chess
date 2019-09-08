@@ -1,0 +1,67 @@
+//@import "~@material/button/mdc-button";
+.menu-page{
+  display: flex;
+  //width: 100vw;
+  height: 97vh;
+  width: 90vw;
+  padding: 0 5vw;
+  overflow: hidden;
+  //background: black;
+}
+
+.title-field{
+  flex: 1 1 200px;
+  display: flex;
+  justify-content:center;
+  align-items: center;
+  flex-direction: column;
+  height: 100%;
+  .page-info{
+    font-size: 2vh;
+  }
+
+  .back-button{
+    position: absolute;
+    top: 0;
+    left: 0;
+    //margin-top: 20px;
+    margin: 20px;
+    border: black 1px solid;
+  }
+}
+.right-field{
+  flex: 3 3 200px;
+  display: flex;
+  justify-content:center;
+  align-items: center;
+  height: 100%;
+
+  .one-player-panel:first-child{
+    margin-bottom: 5vh;
+    margin-top: 20vh;
+  }
+}
+
+
+
+.one-player-panel{
+  transform: perspective(30em) rotateY(-30deg) scale(0.9) translateY(calc((-80vh + 429.356px) * 0.5));
+  //width: 50vw;
+  .my-input{
+    width: 200px;
+  }
+  .copy-button{
+    //background-color: #fff;
+    //opacity: .9;
+    //border: black 1px solid;
+  }
+  .enter-button{
+    font-size: 6vh;
+    background-color: #fff;
+    opacity: .9;
+    height: 10vh;
+    width: 50vh;
+    margin: 8px 0;
+    border: black 1px solid;
+  }
+}
