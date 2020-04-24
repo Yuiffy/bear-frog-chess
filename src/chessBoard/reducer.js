@@ -2,7 +2,7 @@ import { SELECT, MOVE_TO, SET_BOARD } from './actionTypes.js';
 import { findChessPos, socketContainer } from '../utils';
 import { ChessTypes } from '../constants.js';
 import { createBearFrogBoard } from '../utils/';
-import { gameMessage } from '../utils/SocketClient';
+import { gameMessage } from '../utils/controlClients/SocketClient';
 
 function doKill(board, x, y, player) {
   for (let isHorizon = 0; isHorizon < 2; isHorizon++) {

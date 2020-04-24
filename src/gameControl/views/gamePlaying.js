@@ -1,26 +1,29 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import './style.css';
-import { Link, Switch, Route } from 'react-router-dom';
-import { setBoard } from '../../chessBoard/actions.js';
-import { reset, updateSocket } from '../actions.js';
-import SocketClient, { gameMessage } from '../../utils/SocketClient';
-import { roundEnd, setLocalPlayer } from '../../player/actions';
-import { moveTo } from '../../chessBoard/actions';
-import { socketContainer } from '../../utils';
-import { getNextPosList } from '../../chessBoard/views/chessItem';
-import { ChessTypes } from '../../constants';
+import {Link, Switch, Route} from 'react-router-dom';
+import {setBoard} from '../../chessBoard/actions.js';
+import {reset, updateSocket} from '../actions.js';
+import SocketClient, {gameMessage} from '../../utils/controlClients/SocketClient';
+import {roundEnd, setLocalPlayer} from '../../player/actions';
+import {moveTo} from '../../chessBoard/actions';
+import {socketContainer} from '../../utils';
+import {getNextPosList} from '../../chessBoard/views/chessItem';
+import {ChessTypes} from '../../constants';
+import AIClient from "../../utils/controlClients/AIClient";
 
 class PlayControl extends Component {
   constructor(props) {
     super(props);
-    console.log('props.roomId', props.roomId);
+    console.log('PlayControl　constructor', props);
+    const {roomId, vsAI, player} = props;
     this.props.setBoard();
-    if (props.roomId) {
+    if (props.roomId || vsAI) {
       this.props.setLocalPlayer([parseInt(props.player)]);
 
       const host = process.env.REACT_APP_WS_HOST + props.roomId;
-      const socketClient = new SocketClient();
+      const GameClient = vsAI ? AIClient : SocketClient;
+      const socketClient = new GameClient();
       socketClient.connect(host);
       socketClient.setOnOpen(() => {
         socketClient.send(gameMessage(null, null, null, true));
@@ -30,7 +33,7 @@ class PlayControl extends Component {
         // alert(event.data);
         const data = JSON.parse(event.data);
         if (data.needMessage) {
-          const { board, nowPlayer, gameOver } = this.props;
+          const {board, nowPlayer, gameOver} = this.props;
           if (!gameOver) socketClient.send(gameMessage(board, nowPlayer, false));
         } else {
           props.onReceiveBoard(data);
@@ -43,8 +46,8 @@ class PlayControl extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { gameOver: preGameOver } = this.props;
-    const { gameOver, winners } = nextProps;
+    const {gameOver: preGameOver} = this.props;
+    const {gameOver, winners} = nextProps;
     console.log('judge gameOver! ', this.props, gameOver, preGameOver);
     if (gameOver && !preGameOver) {
       alert(`游戏结束！胜者是${winners}`);
@@ -86,14 +89,16 @@ function judgeGameOver(playerChessCount, player, board) {
   if (!gameOver) {
     // 判断是否无棋可走，输掉
     winners = [];
-    const playerCanMoveCount = { ...order };
+    const playerCanMoveCount = {...order};
     for (const key in playerCanMoveCount) playerCanMoveCount[key] = {};
-    for (let i=0; i < board.length; i++){
-      for(let j=0; j < board[i].length; j++){
-        if(board[i][j].type === ChessTypes.NORMAL){
+    for (let i = 0; i < board.length; i++) {
+      for (let j = 0; j < board[i].length; j++) {
+        if (board[i][j].type === ChessTypes.NORMAL) {
           const moveList = getNextPosList(board, i, j);
           const player = board[i][j].player;
-          moveList.forEach((id)=>{playerCanMoveCount[player][id]=true;});
+          moveList.forEach((id) => {
+            playerCanMoveCount[player][id] = true;
+          });
         }
       }
     }
@@ -102,15 +107,15 @@ function judgeGameOver(playerChessCount, player, board) {
     for (const key in playerCanMoveCount) {
       if (Object.keys(playerCanMoveCount[key]) <= 0) {
         gameOver = true;
-        if (players[parseInt(key)]) overs[key]=true;
+        if (players[parseInt(key)]) overs[key] = true;
       }
     }
-    if(gameOver)
+    if (gameOver)
       for (const key in playerCanMoveCount) {
         console.log(key, playerCanMoveCount[key], overs[key]);
         if (players[parseInt(key)] && !overs[key]) winners.push(players[parseInt(key)].name);
       }
-    console.log("playerCanMoveCount",board,playerCanMoveCount, overs);
+    console.log("playerCanMoveCount", board, playerCanMoveCount, overs);
   }
   return {
     gameOver,
@@ -122,12 +127,12 @@ const mapStateToProps = (state) => {
   const board = state.chessBoard.board;
   const flatBoard = flatten(board);
 
-  const playerChessCount = { ...state.player.order };
+  const playerChessCount = {...state.player.order};
   for (const key in playerChessCount) playerChessCount[key] = 0;
   for (const i in flatBoard) {
     playerChessCount[flatBoard[i].player]++;
   }
-  const { gameOver, winners } = judgeGameOver(playerChessCount, state.player, board);
+  const {gameOver, winners} = judgeGameOver(playerChessCount, state.player, board);
   console.log(flatBoard, gameOver);
   return {
     gameOver,
@@ -151,7 +156,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(setBoard());
   },
   onReceiveBoard: (data) => {
-    const { board, nowPlayer, isRoundEnd } = data;
+    const {board, nowPlayer, isRoundEnd} = data;
     console.log('will dispatch, board=', board, nowPlayer, isRoundEnd);
     dispatch(setBoard(board));
     if (nowPlayer || nowPlayer === 0) dispatch(setLocalPlayer(null, nowPlayer));

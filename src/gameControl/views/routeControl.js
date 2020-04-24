@@ -12,8 +12,11 @@ import RoomMenu from "../../menu/RoomMenu";
 class RouteControl extends Component {
   render() {
     const {chessBoard, player, gameOver} = this.props;
-    const playControl = ({match}) => <PlayControl {...this.props} roomId={match.params.roomId}
-                                                  player={match.params.playerId}/>;
+    const playControl = ({match, ...others}) => {
+      // console.log("playControl", match, others, this.props);
+      return <PlayControl {...this.props} roomId={match.params.roomId}
+                   player={match.params.playerId} vsAI={match.params.hasAI}/>;
+    }
     const roomControl = (props) => {
       const {match} = props;
       return <RoomMenu {...props} roomId={match.params.roomId}/>
@@ -23,6 +26,7 @@ class RouteControl extends Component {
         <div className="inner-window">
           <Switch>
             <Route path="/local" component={playControl}/>
+            <Route path="/local-ai/:hasAI/:playerId" component={playControl} />
             <Route path="/online/:roomId/:playerId" component={playControl}/>
             <Route exact path="/" component={menuPage}/>
             <Route path="/room/:roomId" component={roomControl}/>
