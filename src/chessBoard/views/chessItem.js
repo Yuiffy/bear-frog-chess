@@ -7,6 +7,7 @@ import MdPets from 'react-icons/lib/md/pets';
 import * as FontAwesome from 'react-icons/lib/fa'
 import {ChessTypes} from '../../constants.js';
 import {findChessPos} from '../../utils';
+import {judgeCanBeMoveTo, getNextPosList} from "../../utils/boardUtils";
 
 class ChessItem extends React.Component {
   constructor(props, context) {
@@ -65,30 +66,7 @@ class ChessItem extends React.Component {
 //   text: PropTypes.string.isRequired
 // }
 
-function getNextPosList(board, x, y) {
-  const maxX = board.length;
-  const maxY = board[0].length;
-  const gx = [0, 0, -1, 1];
-  const gy = [1, -1, 0, 0];
-  const moveList = [];
-  for (const i in gx) {
-    const x2 = x + gx[i];
-    const y2 = y + gy[i];
-    // console.log(x, y, gx[i], gy[i], x2, y2, maxX, maxY, typeof(x), typeof(gx[i]));
-    if (x2 >= 0 && x2 < maxX && y2 >= 0 && y2 < maxY && board[x2][y2].type === ChessTypes.NONE) {
-      moveList.push(board[x2][y2].id);
-    }
-  }
-  return moveList;
-}
 
-const judgeCanBeMoveTo = ({board, selectId, selected}, chessId) => {
-  if (!selected) return false;
-  const {x, y} = findChessPos(board, selectId);
-  const moveList = getNextPosList(board, x, y);
-  // console.log(moveList.indexOf(chessId) !== -1);
-  return moveList.indexOf(chessId) !== -1;
-};
 const mapStateToProps = (state, {chessId, player}) => ({
   beSelected: state.chessBoard.selected && state.chessBoard.selectId == chessId,
   canBeMoveTo: judgeCanBeMoveTo(state.chessBoard, chessId),
