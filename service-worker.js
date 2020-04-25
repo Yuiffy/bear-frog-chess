@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/bear-frog-chess/precache-manifest.ad34ff49e6ed9c5d27acef634970f72a.js"
+  "/bear-frog-chess/precache-manifest.873311e78eba96fd0414fe0b61bca1d4.js"
 );
 
 self.addEventListener('message', (event) => {
