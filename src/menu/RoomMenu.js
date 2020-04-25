@@ -33,8 +33,9 @@ const OnePlayerPanel = (props) => {
 
 const RoomMenu = (props) => {
   const {history, roomId} = props;
+  const {host, href, pathname} = window.location;
   console.log("location!", props.location, window.location);
-  const host = window.location.host;
+  const urlPrefix = href.split('#')[0];
   return (<div className="menu-page">
     <div className={"title-field"}>
       <div className="page-info">
@@ -46,10 +47,10 @@ const RoomMenu = (props) => {
     </div>
     <div className="right-field">
       <div className="player-copy-field">
-        <OnePlayerPanel playerName={"玩家1"} url={`${host}#/online/${roomId}/${0}`} onJump={() => {
+        <OnePlayerPanel playerName={"玩家1"} url={`${urlPrefix}#/online/${roomId}/${0}`} onJump={() => {
           props.history.push(`/online/${roomId}/${0}`);
         }}/>
-        <OnePlayerPanel playerName={"玩家2"} url={`${host}#/online/${roomId}/${1}`} onJump={() => {
+        <OnePlayerPanel playerName={"玩家2"} url={`${urlPrefix}#/online/${roomId}/${1}`} onJump={() => {
           props.history.push(`/online/${roomId}/${1}`);
         }}/>
       </div>
