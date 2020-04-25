@@ -42,6 +42,7 @@ class PlayControl extends Component {
       socketContainer.setSocketClient(socketClient);
     } else {
       this.props.setLocalPlayer([0, 1]);
+      socketContainer.setSocketClient(null);
     }
   }
 
