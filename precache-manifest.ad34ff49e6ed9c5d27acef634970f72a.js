@@ -1,19 +1,19 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "7f3736871b3366d5b064219038ffce41",
+    "revision": "7f9749b8e621a76bc8f4e19bd421ccb9",
     "url": "/bear-frog-chess/index.html"
   },
   {
-    "revision": "a1a8082422df2f37a189",
+    "revision": "b7739cea3bb8fa8debba",
     "url": "/bear-frog-chess/static/css/main.8ae3a02e.chunk.css"
   },
   {
-    "revision": "36f086dc0752c833d4bb",
-    "url": "/bear-frog-chess/static/js/2.493992b9.chunk.js"
+    "revision": "a37a307661623d7a9c4e",
+    "url": "/bear-frog-chess/static/js/2.f4c7a83e.chunk.js"
   },
   {
-    "revision": "a1a8082422df2f37a189",
-    "url": "/bear-frog-chess/static/js/main.4cb46bd8.chunk.js"
+    "revision": "b7739cea3bb8fa8debba",
+    "url": "/bear-frog-chess/static/js/main.6f248ec6.chunk.js"
   },
   {
     "revision": "7f030adf948aee43c3d7",
