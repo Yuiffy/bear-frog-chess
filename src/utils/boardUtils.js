@@ -1,6 +1,8 @@
 import {ChessTypes} from "../constants";
 import {findChessPos} from "./index";
 
+export const flatten = arr => arr.reduce((pre, val) => pre.concat(Array.isArray(val) ? flatten(val) : val), []);
+
 export function getNextPosList(board, x, y) {
   const maxX = board.length;
   const maxY = board[0].length;
@@ -84,4 +86,63 @@ export function doMoveAction(board, now, x, y) {
   const player = newBoard[x][y].player;
   doKill(newBoard, x, y, player);
   return newBoard;
+}
+
+
+export function judgeGameOver(board, player = {
+  players: [{name: 'A'}, {name: 'B'}],
+  order: [0, 1]
+}, orderSequence = [0, 1]) {
+  const flatBoard = flatten(board);
+
+  const playerChessCount = {...orderSequence};
+  for (const key in playerChessCount) playerChessCount[key] = 0;
+  for (const i in flatBoard) {
+    playerChessCount[flatBoard[i].player]++;
+  }
+
+  const {players, order} = player;
+  let gameOver = false;
+  let winners = [];
+  // 判断是否只剩1棋，输掉
+  for (const key in playerChessCount) {
+    if (playerChessCount[key] <= 1) {
+      gameOver = true;
+    } else if (players[parseInt(key)]) winners.push(players[parseInt(key)].name);
+  }
+  if (!gameOver) {
+    // 判断是否无棋可走，输掉
+    winners = [];
+    const playerCanMoveCount = {...order};
+    for (const key in playerCanMoveCount) playerCanMoveCount[key] = {};
+    for (let i = 0; i < board.length; i++) {
+      for (let j = 0; j < board[i].length; j++) {
+        if (board[i][j].type === ChessTypes.NORMAL) {
+          const moveList = getNextPosList(board, i, j);
+          const player = board[i][j].player;
+          moveList.forEach((id) => {
+            playerCanMoveCount[player][id] = true;
+          });
+        }
+      }
+    }
+
+    const overs = {};
+    for (const key in playerCanMoveCount) {
+      if (Object.keys(playerCanMoveCount[key]) <= 0) {
+        gameOver = true;
+        if (players[parseInt(key)]) overs[key] = true;
+      }
+    }
+    if (gameOver)
+      for (const key in playerCanMoveCount) {
+        console.log(key, playerCanMoveCount[key], overs[key]);
+        if (players[parseInt(key)] && !overs[key]) winners.push(players[parseInt(key)].name);
+      }
+    console.log("playerCanMoveCount", board, playerCanMoveCount, overs);
+  }
+  return {
+    gameOver,
+    winners
+  };
 }

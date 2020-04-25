@@ -2,6 +2,7 @@
 // const socketPath = '/socket';
 
 import AI from "../ai/ai";
+import {judgeGameOver} from "../boardUtils";
 
 export default class AIClient {
   funcs={
@@ -21,7 +22,10 @@ export default class AIClient {
     // this.ws.send(JSON.stringify(data));
     console.log("AIClient send", data);
     setTimeout(()=>{
-      const {nowPlayer} = data; // 好像经常是null，那边没好好传过来，待修复
+      const {nowPlayer, isRoundEnd} = data; // nowPlayer好像经常是null，那边没好好传过来，待修复
+
+      if(judgeGameOver(data.board).gameOver) return; //游戏已经结束的话，就不用计算了
+
       const realNowPlayer = 1;
       const newNowPlayer = 0;
       const resData = {

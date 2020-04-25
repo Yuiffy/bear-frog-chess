@@ -40,7 +40,7 @@ export default class SocketAPI {
   //     });
   // }
 }
-
+// board棋盘，nowPlayer当前回合人（0/1）， isRoundEnd不懂是啥，needMessage是否需要立刻获取棋盘信息，例如刚上线首次获取棋盘的在线人
 const gameMessage = (board, nowPlayer, isRoundEnd = false, needMessage = false) => {
   return {
     board,

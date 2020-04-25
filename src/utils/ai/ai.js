@@ -2,8 +2,6 @@ import {doMoveAction, getNextPosList} from "../boardUtils";
 import {ChessTypes} from "../../constants";
 import {findChessPos} from "../index";
 
-const flatten = arr => arr.reduce((pre, val) => pre.concat(Array.isArray(val) ? flatten(val) : val), []);
-
 /**
  * Returns a random integer between min (inclusive) and max (inclusive).
  * The value is no lower than min (or the next integer greater than min
@@ -44,7 +42,7 @@ const AI = {
     const theMove = AI.getTheMove(board, player);
 
     let newBoard = board;
-    if(theMove){
+    if (theMove) {
       const now = findChessPos(board, theMove.now);
       const next = findChessPos(board, theMove.next);
       console.log("getNextBoard theMove", theMove, now, next);

@@ -11,6 +11,7 @@ import {socketContainer} from '../../utils';
 import {getNextPosList} from '../../chessBoard/views/chessItem';
 import {ChessTypes} from '../../constants';
 import AIClient from "../../utils/controlClients/AIClient";
+import {flatten, judgeGameOver} from "../../utils/boardUtils";
 
 class PlayControl extends Component {
   constructor(props) {
@@ -75,66 +76,13 @@ class PlayControl extends Component {
   }
 }
 
-const flatten = arr => arr.reduce((pre, val) => pre.concat(Array.isArray(val) ? flatten(val) : val), []);
 
-function judgeGameOver(playerChessCount, player, board) {
-  const {players, order} = player;
-  let gameOver = false;
-  let winners = [];
-  // 判断是否只剩1棋，输掉
-  for (const key in playerChessCount) {
-    if (playerChessCount[key] <= 1) {
-      gameOver = true;
-    } else if (players[parseInt(key)]) winners.push(players[parseInt(key)].name);
-  }
-  if (!gameOver) {
-    // 判断是否无棋可走，输掉
-    winners = [];
-    const playerCanMoveCount = {...order};
-    for (const key in playerCanMoveCount) playerCanMoveCount[key] = {};
-    for (let i = 0; i < board.length; i++) {
-      for (let j = 0; j < board[i].length; j++) {
-        if (board[i][j].type === ChessTypes.NORMAL) {
-          const moveList = getNextPosList(board, i, j);
-          const player = board[i][j].player;
-          moveList.forEach((id) => {
-            playerCanMoveCount[player][id] = true;
-          });
-        }
-      }
-    }
-
-    const overs = {};
-    for (const key in playerCanMoveCount) {
-      if (Object.keys(playerCanMoveCount[key]) <= 0) {
-        gameOver = true;
-        if (players[parseInt(key)]) overs[key] = true;
-      }
-    }
-    if (gameOver)
-      for (const key in playerCanMoveCount) {
-        console.log(key, playerCanMoveCount[key], overs[key]);
-        if (players[parseInt(key)] && !overs[key]) winners.push(players[parseInt(key)].name);
-      }
-    console.log("playerCanMoveCount", board, playerCanMoveCount, overs);
-  }
-  return {
-    gameOver,
-    winners
-  };
-}
 
 const mapStateToProps = (state) => {
   const board = state.chessBoard.board;
-  const flatBoard = flatten(board);
 
-  const playerChessCount = {...state.player.order};
-  for (const key in playerChessCount) playerChessCount[key] = 0;
-  for (const i in flatBoard) {
-    playerChessCount[flatBoard[i].player]++;
-  }
-  const {gameOver, winners} = judgeGameOver(playerChessCount, state.player, board);
-  console.log(flatBoard, gameOver);
+  const {gameOver, winners} = judgeGameOver(board, state.player, state.player.order);
+  // console.log(flatBoard, gameOver);
   return {
     gameOver,
     winners: gameOver ? winners : [],
