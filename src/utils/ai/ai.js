@@ -42,10 +42,14 @@ const AI = {
     // const flatBoard = flatten(board);
     // const canMoveChesses = flatBoard.filter(one=>one.player===player);
     const theMove = AI.getTheMove(board, player);
-    const now = findChessPos(board, theMove.now);
-    const next = findChessPos(board, theMove.next);
-    console.log("getNextBoard theMove", theMove, now, next);
-    const newBoard = doMoveAction(board, now, next.x, next.y);
+
+    let newBoard = board;
+    if(theMove){
+      const now = findChessPos(board, theMove.now);
+      const next = findChessPos(board, theMove.next);
+      console.log("getNextBoard theMove", theMove, now, next);
+      newBoard = doMoveAction(board, now, next.x, next.y);
+    }
 
     return newBoard;
   }

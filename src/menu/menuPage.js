@@ -5,6 +5,7 @@ import "./menuPage.scss";
 import Button from '@material-ui/core/Button';
 
 const buttonList = [
+  {title: '单挑AI', url: '/local-ai/1/0'},
   {title: '本地双人', url: '/local'},
   // {title: '在线双人-南位', url: '/online/123/0'},
   // {title: '在线双人-北位', url: '/online/123/1'},
