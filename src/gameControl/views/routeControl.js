@@ -21,7 +21,7 @@ class RouteControl extends Component {
     }
     const roomControl = (props) => {
       const {match} = props;
-      return <RoomMenu {...props} roomId={match.params.roomId}/>
+      return <RoomMenu {...props} roomId={match.params.roomId} />
     };
     return (
       <div className="full-window">

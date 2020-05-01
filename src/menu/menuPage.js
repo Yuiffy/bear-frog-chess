@@ -3,6 +3,7 @@ import {Link, Switch, Route} from 'react-router-dom';
 
 import "./menuPage.scss";
 import Button from '@material-ui/core/Button';
+import qs from "qs";
 
 const buttonList = [
   {title: '单挑AI', url: '/local-ai/1/0'},
@@ -17,28 +18,31 @@ const buttonList = [
   },
 ];
 
-const menuPage = (props) => (<div className="menu-page">
-  <div className={"title-field"}>
-    <div className="page-title">
-      熊蛙棋
+const menuPage = (props) => {
+  const urlParams = props.location.search;
+  return (<div className="menu-page">
+    <div className={"title-field"}>
+      <div className="page-title">
+        熊蛙棋
+      </div>
     </div>
-  </div>
-  <div className="right-field">
-    <div className="page-select-list">
-      {buttonList.map(buttonData => {
-        const {title, url, urlFunc} = buttonData;
-        return <div>
-          <Button
-            raised className="mdc-button my-button" onClick={() => {
-            if (urlFunc) props.history.push(urlFunc());
-            else props.history.push(url);
-          }}>
-            {title}
-          </Button></div>
-      })}
+    <div className="right-field">
+      <div className="page-select-list">
+        {buttonList.map(buttonData => {
+          const {title, url, urlFunc} = buttonData;
+          return <div>
+            <Button
+              raised className="mdc-button my-button" onClick={() => {
+              if (urlFunc) props.history.push(`${urlFunc()}${urlParams}`);
+              else props.history.push(`${url}${urlParams}`);
+            }}>
+              {title}
+            </Button></div>
+        })}
+      </div>
     </div>
-  </div>
-  {/* <div><Link to="/">主菜单</Link></div> */}
-</div>);
+    {/* <div><Link to="/">主菜单</Link></div> */}
+  </div>);
+}
 
 export default menuPage;
