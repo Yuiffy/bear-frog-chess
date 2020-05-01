@@ -52,9 +52,12 @@ class PlayControl extends Component {
     const {gameOver, winners} = nextProps;
     console.log('judge gameOver! ', this.props, gameOver, preGameOver);
     if (gameOver && !preGameOver) {
-      alert(`游戏结束！胜者是${winners}`);
-      // window.location.reload();
-      nextProps.resetAll();
+      // 延迟gameOver弹框，防止看不到最后一步。不过没有立即禁止操作，可能要再优化下
+      setTimeout(()=>{
+        alert(`游戏结束！胜者是${winners}`);
+        // window.location.reload();
+        nextProps.resetAll();
+      }, 0);
     }
   }
 

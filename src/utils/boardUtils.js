@@ -99,7 +99,7 @@ export function judgeGameOver(board, player = {
   const playerChessCount = {...orderSequence};
   for (const key in playerChessCount) playerChessCount[key] = 0;
   for (const i in flatBoard) {
-    playerChessCount[flatBoard[i].player]++;
+    flatBoard[i].type=== ChessTypes.NORMAL && playerChessCount[flatBoard[i].player]++;
   }
 
   const {players, order} = player;
