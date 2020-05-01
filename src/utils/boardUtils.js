@@ -84,6 +84,7 @@ export function doMoveAction(board, now, x, y) {
   newBoard[x][y].typeChangeInfo = {reason: "ARRIVE", x: now.x, y: now.y};
 
   const player = newBoard[x][y].player;
+  newBoard[now.x][now.y].player = player; //因为目前的动画会根据棋子的player来画棋子，死亡动画要用到这个空格，所以这里要打个这个补丁。虽然不太合适
   doKill(newBoard, x, y, player);
   return newBoard;
 }
