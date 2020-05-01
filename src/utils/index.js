@@ -45,10 +45,10 @@ const getInitState = () => {
     player: {
       players: [
         {
-          name: '黑方',
+          name: '熊方',
         },
         {
-          name: '红方',
+          name: '蛙方',
         },
       ],
       order: [0, 1],

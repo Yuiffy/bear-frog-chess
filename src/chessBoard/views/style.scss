@@ -12,10 +12,12 @@
 
 .chess-block.can-be-move-to {
     background-color: palegreen;
+    cursor: pointer;
 }
 
 .chess-block.can-be-select {
     background-color: azure;
+    cursor: pointer;
 }
 
 .chess-item {
