@@ -81,10 +81,10 @@ class ChessItem extends React.Component {
 // }
 
 
-const mapStateToProps = (state, {chessId, player}) => ({
+const mapStateToProps = (state, {chessId, player, type}) => ({
   beSelected: state.chessBoard.selected && state.chessBoard.selectId == chessId,
   canBeMoveTo: judgeCanBeMoveTo(state.chessBoard, chessId),
-  canBeSelect: state.player.nowPlayer === player && state.player.local.indexOf(player) != -1,
+  canBeSelect: state.player.nowPlayer === player && state.player.local.indexOf(player) != -1 && type === ChessTypes.NORMAL,
 });
 
 export default connect(mapStateToProps)(ChessItem);
