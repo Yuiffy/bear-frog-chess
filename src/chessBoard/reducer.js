@@ -36,10 +36,18 @@ export default (state = {}, action) => {
     }
     case SET_BOARD: {
       console.log('SET_BOARD!REDUCER, got action:', action);
-      const board = action.board ? action.board : createBearFrogBoard();
+      let newBoard = action.board;
+      if(!newBoard){
+        newBoard = createBearFrogBoard();
+        // 如果打AI的话，要这样发新的棋盘给AI让它动一下，否则会两边都没法动。这个临时在这加着，应该有更好的实现方式。
+        if (socketContainer.getSocketClient()) {
+          socketContainer.getSocketClient()
+            .send(gameMessage(newBoard, null, true));
+        }
+      }
       return {
         ...state,
-        board,
+        board: newBoard,
       };
     }
     default: {

@@ -9,19 +9,23 @@ export default class AIClient {
     onMessage: ()=>{},
     onOpen: ()=>{}
   }
+  store={
+    timeout: 0
+  }
   connect(host) {
     const data = {};
     // this.funcs.onOpen(data);
   }
 
   disconnect() {
-
+    clearTimeout(this.store.timeout)
   }
 
   send(data) {
     // this.ws.send(JSON.stringify(data));
     console.log("AIClient send", data);
-    setTimeout(()=>{
+    clearTimeout(this.store.timeout);
+    this.store.timeout = setTimeout(()=>{
       const {nowPlayer, isRoundEnd} = data; // nowPlayer好像经常是null，那边没好好传过来，待修复
 
       if(judgeGameOver(data.board).gameOver) return; //游戏已经结束的话，就不用计算了

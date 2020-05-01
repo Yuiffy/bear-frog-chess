@@ -7,7 +7,8 @@ export default class SocketAPI {
   connect(host) {
     this.ws = new WebSocket(host);
     this.ws.onclose = (e) => {
-      alert('webSocket onClose!' + e);
+      if (!e.isTrusted)
+        alert('webSocket onClose!' + JSON.stringify(e));
     };
     this.ws.onerror = (e) => {
       alert('webSocket onError!' + e);
@@ -15,7 +16,7 @@ export default class SocketAPI {
   }
 
   disconnect() {
-    this.ws.disconnect();//待确认，乱写的
+    this.ws.close(1000, '正常关闭');//待确认，乱写的
   }
 
   send(data) {
@@ -50,4 +51,4 @@ const gameMessage = (board, nowPlayer, isRoundEnd = false, needMessage = false) 
   };
 };
 
-export { gameMessage };
+export {gameMessage};

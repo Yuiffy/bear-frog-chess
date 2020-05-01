@@ -43,7 +43,10 @@ class PlayControl extends Component {
       socketContainer.setSocketClient(socketClient);
     } else {
       this.props.setLocalPlayer([0, 1]);
-      socketContainer.setSocketClient(null);
+      if (socketContainer.getSocketClient()) {
+        socketContainer.getSocketClient().disconnect();
+        socketContainer.setSocketClient(null);
+      }
     }
   }
 
@@ -57,7 +60,14 @@ class PlayControl extends Component {
         alert(`游戏结束！胜者是${winners}`);
         // window.location.reload();
         nextProps.resetAll();
-      }, 0);
+      }, 1000);
+    }
+  }
+
+  componentWillUnmount(): void {
+    if (socketContainer.getSocketClient()) {
+      socketContainer.getSocketClient().disconnect();
+      socketContainer.setSocketClient(null);
     }
   }
 
