@@ -65,7 +65,8 @@ export function doKill(board, x, y, player) {
       for (let j = 0; j < enemyList.length; j++) {
         enemyList[j].type = ChessTypes.NONE;
         enemyList[j].typeChangeInfo = {reason: "DIE"};
-        enemyList[j].player = -1;
+        // enemyList[j].player = -1;
+        // player不变，因为要用这个player的死亡动画，变了动画也变了，不行
       }
     }
   }
