@@ -20,10 +20,19 @@ const buttonList = [
 
 const menuPage = (props) => {
   const urlParams = props.location.search;
+  const params = qs.parse(urlParams, {ignoreQueryPrefix: true});
+  let gameNameDisplay = '熊蛙棋';
+  if (params.playerNames) {
+    gameNameDisplay = '';
+    const names = JSON.parse(params.playerNames);
+    console.log("names", names);
+    names.forEach(one=>gameNameDisplay+=one);
+    gameNameDisplay += '棋';
+  }
   return (<div className="menu-page">
     <div className={"title-field"}>
       <div className="page-title">
-        熊蛙棋
+        {gameNameDisplay}
       </div>
     </div>
     <div className="right-field">
