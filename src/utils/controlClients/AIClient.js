@@ -5,13 +5,16 @@ import AI from "../ai/ai";
 import {judgeGameOver} from "../boardUtils";
 
 export default class AIClient {
-  funcs={
-    onMessage: ()=>{},
-    onOpen: ()=>{}
+  funcs = {
+    onMessage: () => {
+    },
+    onOpen: () => {
+    }
   }
-  store={
+  store = {
     timeout: 0
   }
+
   connect(host) {
     const data = {};
     // this.funcs.onOpen(data);
@@ -25,15 +28,15 @@ export default class AIClient {
     // this.ws.send(JSON.stringify(data));
     console.log("AIClient send", data);
     clearTimeout(this.store.timeout);
-    this.store.timeout = setTimeout(()=>{
+    this.store.timeout = setTimeout(() => {
       const {nowPlayer, isRoundEnd} = data; // nowPlayer好像经常是null，那边没好好传过来，待修复
 
-      if(judgeGameOver(data.board).gameOver) return; //游戏已经结束的话，就不用计算了
+      if (judgeGameOver(data.board).gameOver) return; //游戏已经结束的话，就不用计算了
 
-      const realNowPlayer = 1;
-      const newNowPlayer = 0;
+      const realNowPlayer = nowPlayer === null ? 1 : nowPlayer;
+      const newNowPlayer = realNowPlayer ? 0 : 1;
       const resData = {
-        board: AI.getNextBoard(data.board, 1),
+        board: AI.getNextBoard(data.board, realNowPlayer),
         isRoundEnd: false,
         needMessage: false,
         nowPlayer: newNowPlayer

@@ -23,7 +23,7 @@ export default (state = {}, action) => {
       const newBoard = doMoveAction(board, now, x, y);
       if (socketContainer.getSocketClient()) {
         socketContainer.getSocketClient()
-          .send(gameMessage(newBoard, null, true));
+          .send(gameMessage(newBoard, 1, true));
       }
       return {
         ...state,
