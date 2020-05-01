@@ -56,8 +56,8 @@ class PlayControl extends Component {
     console.log('judge gameOver! ', this.props, gameOver, preGameOver);
     if (gameOver && !preGameOver) {
       // 延迟gameOver弹框，防止看不到最后一步。不过没有立即禁止操作，可能要再优化下
-      setTimeout(()=>{
-        alert(`游戏结束！胜者是${winners}`);
+      setTimeout(() => {
+        alert(`游戏结束！胜者是${this.getPlayerNames()[winners]}`);
         // window.location.reload();
         nextProps.resetAll();
       }, 1000);
@@ -71,16 +71,26 @@ class PlayControl extends Component {
     }
   }
 
+  getPlayerNames() {
+    const {params} = this.props;
+    let playerNames = ['🐻', '🐸'];
+    if (params.playerNames) {
+      playerNames = JSON.parse(params.playerNames);
+    }
+    return playerNames
+  }
+
   render() {
     const {
-      chessBoard, player, gameOver, roomId,
+      ChessBoard, player, gameOver, roomId, params
     } = this.props;
+
 
     return (
       <div className="full-window">
         <div className="inner-window">
           {roomId ? <div>房间{roomId}</div> : ''}
-          <div>{chessBoard}</div>
+          <div><ChessBoard playerNames={this.getPlayerNames()}/></div>
           <div>{player}</div>
           <div>规则：本回合移动的己方棋子和其移动后相邻的棋子，两个棋子组成炮台，杀死处在该炮台连线上相邻的敌方棋子。如果这条直线上有4个棋子则杀不掉。当有玩家只剩1颗棋子或者无法行动时输掉。</div>
         </div>
@@ -88,7 +98,6 @@ class PlayControl extends Component {
     );
   }
 }
-
 
 
 const mapStateToProps = (state) => {

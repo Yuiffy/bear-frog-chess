@@ -6,8 +6,9 @@ import ChessItem from './chessItem.js';
 
 import './style.scss';
 
-const ChessBoard = ({ board, onSelect, onMoveTo }) => {
+const ChessBoard = ({ board, onSelect, onMoveTo, playerNames }) => {
   let rowKey = 0;
+
   return (
     <div className="chess-board">
       {
@@ -18,6 +19,7 @@ const ChessBoard = ({ board, onSelect, onMoveTo }) => {
                         key={index}
                         chessId={item.id}
                         player={item.player}
+                        playerNames={playerNames}
                         type={item.type}
                         onSelect={() => onSelect(item.id)}
                         onMoveTo={() => onMoveTo(item.id)}

@@ -8,14 +8,16 @@ import {Link, Switch, Route} from 'react-router-dom';
 import PlayControl from './gamePlaying.js';
 import menuPage from "../../menu/menuPage";
 import RoomMenu from "../../menu/RoomMenu";
+import qs from "qs";
 
 class RouteControl extends Component {
   render() {
     const {chessBoard, player, gameOver} = this.props;
-    const playControl = ({match, ...others}) => {
-      // console.log("playControl", match, others, this.props);
+    const playControl = ({match, location, ...others}) => {
+      console.log("playControl", match, others, this.props);
+      const params = qs.parse(location.search, { ignoreQueryPrefix: true });
       return <PlayControl {...this.props} roomId={match.params.roomId}
-                   player={match.params.playerId} vsAI={match.params.hasAI}/>;
+                   player={match.params.playerId} vsAI={match.params.hasAI} params={params}/>;
     }
     const roomControl = (props) => {
       const {match} = props;

@@ -5,10 +5,10 @@ import { view as Player } from './player/';
 import { Link, Route, Switch } from 'react-router-dom';
 
 function App() {
-  const chessBoard = <ChessBoard />;
+  const chessBoard = ChessBoard;
   const player = <Player />;
   return (
-    <GameControl chessBoard={chessBoard} player={player} />
+    <GameControl ChessBoard={chessBoard} player={player} />
   );
 }
 

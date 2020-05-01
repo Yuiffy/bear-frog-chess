@@ -109,7 +109,7 @@ export function judgeGameOver(board, player = {
   for (const key in playerChessCount) {
     if (playerChessCount[key] <= 1) {
       gameOver = true;
-    } else if (players[parseInt(key)]) winners.push(players[parseInt(key)].name);
+    } else if (players[parseInt(key)]) winners.push(parseInt(key));
   }
   if (!gameOver) {
     // 判断是否无棋可走，输掉
@@ -138,7 +138,7 @@ export function judgeGameOver(board, player = {
     if (gameOver)
       for (const key in playerCanMoveCount) {
         console.log(key, playerCanMoveCount[key], overs[key]);
-        if (players[parseInt(key)] && !overs[key]) winners.push(players[parseInt(key)].name);
+        if (players[parseInt(key)] && !overs[key]) winners.push(parseInt(key));
       }
     console.log("playerCanMoveCount", board, playerCanMoveCount, overs);
   }

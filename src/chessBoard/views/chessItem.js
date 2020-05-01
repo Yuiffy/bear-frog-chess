@@ -34,6 +34,7 @@ class ChessItem extends React.Component {
 
   render() {
     const {player, type, beSelected, canBeMoveTo, onSelect, onMoveTo, canBeSelect, typeChangeInfo} = this.props;
+    const { playerNames= ['🐻', '🐸'] } = this.props;
     const onClick = () => {
       if (canBeMoveTo) {
         onMoveTo();
@@ -58,16 +59,12 @@ class ChessItem extends React.Component {
       }
     }
 
-    let icon = null;
-    if (player == 0)
-      icon = null;
-    else
-      icon = <GiBearFace className={iconClassName}/>;
+    let icon = playerNames[player] || '🐶';
     return (
       <div
         className={`chess-block ${beSelected ? 'selected' : ''} ${canBeMoveTo ? 'can-be-move-to' : ''} ${canBeSelect && !beSelected ? 'can-be-select' : ''} `}
         onClick={onClick}>
-        <ChessComponent iconClassName={iconClassName}>{player===0?'🐻':'🐸'}</ChessComponent>
+        <ChessComponent iconClassName={iconClassName}>{icon}</ChessComponent>
       </div>
     );
   }
