@@ -24,6 +24,20 @@
     position: relative;
     transition-property: all;
     transition-duration: 1s;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    //svg {
+    //    width: 100%;
+    //    height: auto;
+    ////    text {
+    ////        transform: translate(40px, 202px);
+    ////        font-size: 62px;
+    ////        fill: #000;
+    ////    }
+    //}
 }
 
 .row {

@@ -1,13 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import MdAccessibility from 'react-icons/lib/md/accessibility';
-import MdAccessible from 'react-icons/lib/md/accessible';
-import MdPets from 'react-icons/lib/md/pets';
-import * as FontAwesome from 'react-icons/lib/fa'
+// import MdAccessibility from 'react-icons/lib/md/accessibility';
+import {GiBearFace, GiFrogPrince} from 'react-icons/gi'
+// import MdAccessible from 'react-icons/lib/md/accessible';
+// import MdPets from 'react-icons/lib/md/pets';
+// import * as FontAwesome from 'react-icons/lib/fa'
 import {ChessTypes} from '../../constants.js';
 import {findChessPos} from '../../utils';
 import {judgeCanBeMoveTo, getNextPosList} from "../../utils/boardUtils";
+
+const ChessComponent = (props)=>{
+  const {iconClassName, children} = props;
+  // return <div className={iconClassName} style={{background: 'red'}}><MdAccessibility className={iconClassName}/>🐻</div>
+  return <div className={`${iconClassName}`}>
+    <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox='0 0 512 512'>
+        <text x='50%' y="50%" dominantBaseline="central" textAnchor="middle" style={{fontSize: "256px"}} >
+          {children}
+        </text>
+    </svg>
+    </div>
+  ;
+}
 
 class ChessItem extends React.Component {
   constructor(props, context) {
@@ -46,14 +60,14 @@ class ChessItem extends React.Component {
 
     let icon = null;
     if (player == 0)
-      icon = <MdAccessibility className={iconClassName}/>
+      icon = null;
     else
-      icon = <MdAccessibility className={iconClassName}/>;
+      icon = <GiBearFace className={iconClassName}/>;
     return (
       <div
         className={`chess-block ${beSelected ? 'selected' : ''} ${canBeMoveTo ? 'can-be-move-to' : ''} ${canBeSelect && !beSelected ? 'can-be-select' : ''} `}
         onClick={onClick}>
-        {icon}
+        <ChessComponent iconClassName={iconClassName}>{player===0?'🐻':'🐸'}</ChessComponent>
       </div>
     );
   }

@@ -4,7 +4,7 @@ import { select, moveTo } from '../actions.js';
 import { roundEnd } from '../../player/actions';
 import ChessItem from './chessItem.js';
 
-import './style.css';
+import './style.scss';
 
 const ChessBoard = ({ board, onSelect, onMoveTo }) => {
   let rowKey = 0;
