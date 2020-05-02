@@ -25,7 +25,7 @@ const menuPage = (props) => {
   if (params.playerNames) {
     gameNameDisplay = '';
     const names = JSON.parse(params.playerNames);
-    console.log("names", names);
+    console.log("gameNameDisplay", qs.stringify({playerNames: params.playerNames}));
     names.forEach(one=>gameNameDisplay+=one);
     gameNameDisplay += '棋';
   }
@@ -39,9 +39,9 @@ const menuPage = (props) => {
       <div className="page-select-list">
         {buttonList.map(buttonData => {
           const {title, url, urlFunc} = buttonData;
-          return <div>
+          return <div key={title}>
             <Button
-              raised className="mdc-button my-button" onClick={() => {
+              raised="raised" className="mdc-button my-button" onClick={() => {
               if (urlFunc) props.history.push(`${urlFunc()}${urlParams}`);
               else props.history.push(`${url}${urlParams}`);
             }}>

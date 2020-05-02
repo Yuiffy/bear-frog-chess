@@ -26,7 +26,7 @@ const OnePlayerPanel = (props) => {
       </CopyToClipboard>
     </div>
     <Button
-      raised className="enter-button" onClick={() => {
+      raised="raised" className="enter-button" onClick={() => {
       props.onJump && props.onJump();
     }}>{`进入${playerName}座位`}</Button>
   </div>
@@ -43,7 +43,7 @@ const RoomMenu = (props) => {
       <div className="page-info">
         网络1V1对战：把一个座位的网址发给朋友，自己进入另一个座位网址。
       </div>
-      <div><Button outlined className="back-button" onClick={() => {
+      <div><Button outlined="outlined" className="back-button" onClick={() => {
         props.history.push(`/${paramsString}`);
       }}>返回主菜单</Button></div>
     </div>
