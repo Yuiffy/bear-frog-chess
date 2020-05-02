@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/bear-frog-chess/static/css/main.1d34528d.chunk.css",
-    "main.js": "/bear-frog-chess/static/js/main.9619f250.chunk.js",
-    "main.js.map": "/bear-frog-chess/static/js/main.9619f250.chunk.js.map",
+    "main.js": "/bear-frog-chess/static/js/main.6b765245.chunk.js",
+    "main.js.map": "/bear-frog-chess/static/js/main.6b765245.chunk.js.map",
     "runtime~main.js": "/bear-frog-chess/static/js/runtime~main.37fbcd2b.js",
     "runtime~main.js.map": "/bear-frog-chess/static/js/runtime~main.37fbcd2b.js.map",
-    "static/js/2.e5785985.chunk.js": "/bear-frog-chess/static/js/2.e5785985.chunk.js",
-    "static/js/2.e5785985.chunk.js.map": "/bear-frog-chess/static/js/2.e5785985.chunk.js.map",
+    "static/js/2.47dc48b9.chunk.js": "/bear-frog-chess/static/js/2.47dc48b9.chunk.js",
+    "static/js/2.47dc48b9.chunk.js.map": "/bear-frog-chess/static/js/2.47dc48b9.chunk.js.map",
     "index.html": "/bear-frog-chess/index.html",
-    "precache-manifest.a84feb7ca221a224dce0a499b1b73032.js": "/bear-frog-chess/precache-manifest.a84feb7ca221a224dce0a499b1b73032.js",
+    "precache-manifest.6db0263f6ce6e87dd383bb2616341917.js": "/bear-frog-chess/precache-manifest.6db0263f6ce6e87dd383bb2616341917.js",
     "service-worker.js": "/bear-frog-chess/service-worker.js",
     "static/css/main.1d34528d.chunk.css.map": "/bear-frog-chess/static/css/main.1d34528d.chunk.css.map"
   }
