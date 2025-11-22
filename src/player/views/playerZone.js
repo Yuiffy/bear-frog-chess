@@ -41,8 +41,8 @@ class PlayerZone extends Component {
       else if (life < 3) str += '不足3颗，完蛋了。';
       else str += '赚到。';
       alert(str);
-      if (life >= 3) window.location.href = 'http://www.yuiffy.com/hebi.html';
-      else window.location.href = 'http://www.yuiffy.com/mario.html';
+      if (life >= 3) window.location.href = 'http://www.daifish.top/hebi.html';
+      else window.location.href = 'http://www.daifish.top/mario.html';
     }
     return (
       <div className="playerZone">

@@ -39,7 +39,7 @@
     "deploy": "gh-pages -d build",
     "build-deploy": "react-scripts build && gh-pages -d build"
   },
-  "homepage": "https://www.yuiffy.com/bear-frog-chess",
+  "homepage": "https://www.daifish.top/bear-frog-chess",
   "proxy": "http://localhost:5001",
   "browserslist": {
     "production": [
