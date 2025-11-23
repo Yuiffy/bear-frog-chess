@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/bear-frog-chess/static/css/main.b107b6b5.css",
-    "main.js": "/bear-frog-chess/static/js/main.9ccb55df.js",
+    "main.js": "/bear-frog-chess/static/js/main.4dd3ca6e.js",
     "index.html": "/bear-frog-chess/index.html",
     "main.b107b6b5.css.map": "/bear-frog-chess/static/css/main.b107b6b5.css.map",
-    "main.9ccb55df.js.map": "/bear-frog-chess/static/js/main.9ccb55df.js.map"
+    "main.4dd3ca6e.js.map": "/bear-frog-chess/static/js/main.4dd3ca6e.js.map"
   },
   "entrypoints": [
     "static/css/main.b107b6b5.css",
-    "static/js/main.9ccb55df.js"
+    "static/js/main.4dd3ca6e.js"
   ]
 }
