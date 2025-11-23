@@ -1,6 +1,5 @@
 import { SET_LOCAL_PLAYER, ROUND_END } from './actionTypes.js';
 
-
 export default (state = {}, action) => {
   switch (action.type) {
     case ROUND_END: {

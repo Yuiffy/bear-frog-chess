@@ -4,8 +4,7 @@ export const reset = () => ({
   type: RESET,
 });
 
-export const updateSocket = socketClient => ({
+export const updateSocket = (socketClient) => ({
   socketClient,
   type: UPDATE_SOCKET,
 });
-

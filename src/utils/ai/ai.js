@@ -1,6 +1,6 @@
-import {doMoveAction, getNextPosList} from "../boardUtils";
-import {ChessTypes} from "../../constants";
-import {findChessPos} from "../index";
+import { doMoveAction, getNextPosList } from '../boardUtils';
+import { ChessTypes } from '../../constants';
+import { findChessPos } from '../index';
 
 /**
  * Returns a random integer between min (inclusive) and max (inclusive).
@@ -16,15 +16,15 @@ function getRandomInt(min, max) {
 }
 
 const AI = {
-  getTheMove: function (board, player) {
+  getTheMove(board, player) {
     const moves = [];
     for (let i = 0; i < board.length; i++) {
       for (let j = 0; j < board[i].length; j++) {
         if (board[i][j].type === ChessTypes.NORMAL && board[i][j].player === player) {
           const moveList = getNextPosList(board, i, j);
-          moveList.forEach(one => {
-            moves.push({now: board[i][j].id, next: one}); //存现在的和next的id
-          })
+          moveList.forEach((one) => {
+            moves.push({ now: board[i][j].id, next: one }); // 存现在的和next的id
+          });
         }
       }
     }
@@ -33,9 +33,9 @@ const AI = {
     return theMove;
   },
   getNextBoard: (board, player) => {
-    //id: 16, player: 1, type: "有棋"
-    //{id: 25, player: null, type: "无棋"}
-    console.log("AI getNextBoard board?!", board, player);
+    // id: 16, player: 1, type: "有棋"
+    // {id: 25, player: null, type: "无棋"}
+    console.log('AI getNextBoard board?!', board, player);
 
     // const flatBoard = flatten(board);
     // const canMoveChesses = flatBoard.filter(one=>one.player===player);
@@ -45,12 +45,12 @@ const AI = {
     if (theMove) {
       const now = findChessPos(board, theMove.now);
       const next = findChessPos(board, theMove.next);
-      console.log("getNextBoard theMove", theMove, now, next);
+      console.log('getNextBoard theMove', theMove, now, next);
       newBoard = doMoveAction(board, now, next.x, next.y);
     }
 
     return newBoard;
-  }
+  },
 };
 
 export default AI;

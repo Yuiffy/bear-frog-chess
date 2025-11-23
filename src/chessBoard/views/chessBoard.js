@@ -6,13 +6,15 @@ import ChessItem from './chessItem.js';
 
 import './style.scss';
 
-const ChessBoard = ({ board, onSelect, onMoveTo, playerNames }) => {
+function ChessBoard({
+  board, onSelect, onMoveTo, playerNames,
+}) {
   let rowKey = 0;
 
   return (
     <div className="chess-board">
       {
-                board.map(row => (
+                board.map((row) => (
                   <div className="row" key={rowKey++}>
                     {row.map((item, index) => (
                       <ChessItem
@@ -24,20 +26,19 @@ const ChessBoard = ({ board, onSelect, onMoveTo, playerNames }) => {
                         onSelect={() => onSelect(item.id)}
                         onMoveTo={() => onMoveTo(item.id)}
                       />
-                        ))}
+                    ))}
                   </div>
                 ))
             }
     </div>
   );
-};
+}
 
-
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   board: state.chessBoard.board,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   onSelect: (id) => {
     dispatch(select(id));
   },
@@ -48,4 +49,3 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChessBoard);
-

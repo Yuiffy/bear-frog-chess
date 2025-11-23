@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { playCard } from '../actions.js';
 
-const CardItem = ({
+function CardItem({
   type, active, isShow, onRemove,
-}) => {
+}) {
   let typeShow = '';
   switch (type) {
     case 0:
@@ -23,14 +23,13 @@ const CardItem = ({
       className="card"
       onClick={active ? onRemove : null}
       style={{
-                 backgroundColor: active ? 'yellow' : 'white',
-             }}
+        backgroundColor: active ? 'yellow' : 'white',
+      }}
     >
       {active || isShow ? typeShow : ''}
     </div>
   );
-};
-
+}
 
 CardItem.propTypes = {
   type: PropTypes.string.isRequired,
@@ -42,6 +41,5 @@ CardItem.propTypes = {
 const mapStateToProps = (state, ownProps) => ({
   active: state.game.nowPlayer === ownProps.player && state.game.players[ownProps.player].cardPlayed.length === 0,
 });
-
 
 export default connect(mapStateToProps)(CardItem);

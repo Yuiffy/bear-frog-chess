@@ -2,7 +2,9 @@
 // const socketPath = '/socket';
 
 export default class SocketAPI {
-  ws;
+  constructor() {
+    this.ws = null;
+  }
 
   connect(host) {
     this.ws = new WebSocket(host);
@@ -51,4 +53,4 @@ const gameMessage = (board, nowPlayer, isRoundEnd = false, needMessage = false) 
   };
 };
 
-export {gameMessage};
+export { gameMessage };

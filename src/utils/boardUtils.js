@@ -1,7 +1,7 @@
-import {ChessTypes} from "../constants";
-import {findChessPos} from "./index";
+import { ChessTypes } from '../constants';
+import { findChessPos } from './index';
 
-export const flatten = arr => arr.reduce((pre, val) => pre.concat(Array.isArray(val) ? flatten(val) : val), []);
+export const flatten = (arr) => arr.reduce((pre, val) => pre.concat(Array.isArray(val) ? flatten(val) : val), []);
 
 export function getNextPosList(board, x, y) {
   const maxX = board.length;
@@ -20,10 +20,9 @@ export function getNextPosList(board, x, y) {
   return moveList;
 }
 
-
-export const judgeCanBeMoveTo = ({board, selectId, selected}, chessId) => {
+export const judgeCanBeMoveTo = ({ board, selectId, selected }, chessId) => {
   if (!selected) return false;
-  const {x, y} = findChessPos(board, selectId);
+  const { x, y } = findChessPos(board, selectId);
   const moveList = getNextPosList(board, x, y);
   // console.log(moveList.indexOf(chessId) !== -1);
   return moveList.indexOf(chessId) !== -1;
@@ -36,11 +35,11 @@ export function doKill(board, x, y, player) {
     if (isHorizon) [maxX, maxY] = [maxY, maxX];
     const ii = isHorizon ? x : y;
 
-    let allLength = 0,
-      maxAllLength = 0;
-    let selfLength = 0,
-      maxSelfLength = 0,
-      selfSize = 0;
+    let allLength = 0;
+    let maxAllLength = 0;
+    let selfLength = 0;
+    let maxSelfLength = 0;
+    let selfSize = 0;
     const enemyList = [];
     for (let jj = 0; jj < maxY; jj++) {
       const [i, j] = isHorizon ? [ii, jj] : [jj, ii];
@@ -64,7 +63,7 @@ export function doKill(board, x, y, player) {
     if (maxAllLength == 3 && maxSelfLength == 2 && selfSize == 2 && enemyList.length == 1) {
       for (let j = 0; j < enemyList.length; j++) {
         enemyList[j].type = ChessTypes.NONE;
-        enemyList[j].typeChangeInfo = {reason: "DIE"};
+        enemyList[j].typeChangeInfo = { reason: 'DIE' };
         // enemyList[j].player = -1;
         // player不变，因为要用这个player的死亡动画，变了动画也变了，不行
       }
@@ -74,36 +73,34 @@ export function doKill(board, x, y, player) {
 
 // 从now: {x,y}移动一个棋到x,y，计算kill操作
 export function doMoveAction(board, now, x, y) {
-  const newBoard = board.map(row =>
-    row.map(item => ({...item})));
+  const newBoard = board.map((row) => row.map((item) => ({ ...item })));
   // (now.x,now.y) move to x,y
   const temp = newBoard[now.x][now.y];
   newBoard[now.x][now.y] = newBoard[x][y];
   newBoard[x][y] = temp;
 
-  newBoard[now.x][now.y].typeChangeInfo = {reason: "LEAVE", x, y};
-  newBoard[x][y].typeChangeInfo = {reason: "ARRIVE", x: now.x, y: now.y};
+  newBoard[now.x][now.y].typeChangeInfo = { reason: 'LEAVE', x, y };
+  newBoard[x][y].typeChangeInfo = { reason: 'ARRIVE', x: now.x, y: now.y };
 
-  const player = newBoard[x][y].player;
-  newBoard[now.x][now.y].player = player; //因为目前的动画会根据棋子的player来画棋子，死亡动画要用到这个空格，所以这里要打个这个补丁。虽然不太合适
+  const { player } = newBoard[x][y];
+  newBoard[now.x][now.y].player = player; // 因为目前的动画会根据棋子的player来画棋子，死亡动画要用到这个空格，所以这里要打个这个补丁。虽然不太合适
   doKill(newBoard, x, y, player);
   return newBoard;
 }
 
-
 export function judgeGameOver(board, player = {
-  players: [{name: 'A'}, {name: 'B'}],
-  order: [0, 1]
+  players: [{ name: 'A' }, { name: 'B' }],
+  order: [0, 1],
 }, orderSequence = [0, 1]) {
   const flatBoard = flatten(board);
 
-  const playerChessCount = {...orderSequence};
+  const playerChessCount = { ...orderSequence };
   for (const key in playerChessCount) playerChessCount[key] = 0;
   for (const i in flatBoard) {
-    flatBoard[i].type=== ChessTypes.NORMAL && playerChessCount[flatBoard[i].player]++;
+    flatBoard[i].type === ChessTypes.NORMAL && playerChessCount[flatBoard[i].player]++;
   }
 
-  const {players, order} = player;
+  const { players, order } = player;
   let gameOver = false;
   let winners = [];
   // 判断是否只剩1棋，输掉
@@ -115,13 +112,13 @@ export function judgeGameOver(board, player = {
   if (!gameOver) {
     // 判断是否无棋可走，输掉
     winners = [];
-    const playerCanMoveCount = {...order};
+    const playerCanMoveCount = { ...order };
     for (const key in playerCanMoveCount) playerCanMoveCount[key] = {};
     for (let i = 0; i < board.length; i++) {
       for (let j = 0; j < board[i].length; j++) {
         if (board[i][j].type === ChessTypes.NORMAL) {
           const moveList = getNextPosList(board, i, j);
-          const player = board[i][j].player;
+          const { player } = board[i][j];
           moveList.forEach((id) => {
             playerCanMoveCount[player][id] = true;
           });
@@ -136,15 +133,16 @@ export function judgeGameOver(board, player = {
         if (players[parseInt(key)]) overs[key] = true;
       }
     }
-    if (gameOver)
+    if (gameOver) {
       for (const key in playerCanMoveCount) {
         console.log(key, playerCanMoveCount[key], overs[key]);
         if (players[parseInt(key)] && !overs[key]) winners.push(parseInt(key));
       }
-    console.log("playerCanMoveCount", board, playerCanMoveCount, overs);
+    }
+    console.log('playerCanMoveCount', board, playerCanMoveCount, overs);
   }
   return {
     gameOver,
-    winners
+    winners,
   };
 }

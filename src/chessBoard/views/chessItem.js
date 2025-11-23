@@ -1,40 +1,43 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 // import MdAccessibility from 'react-icons/lib/md/accessibility';
-import {GiBearFace, GiFrogPrince} from 'react-icons/gi'
+import { GiBearFace, GiFrogPrince } from 'react-icons/gi';
 // import MdAccessible from 'react-icons/lib/md/accessible';
 // import MdPets from 'react-icons/lib/md/pets';
 // import * as FontAwesome from 'react-icons/lib/fa'
-import {ChessTypes} from '../../constants.js';
-import {findChessPos} from '../../utils';
-import {judgeCanBeMoveTo, getNextPosList} from "../../utils/boardUtils";
+import { ChessTypes } from '../../constants.js';
+import { findChessPos } from '../../utils';
+import { judgeCanBeMoveTo, getNextPosList } from '../../utils/boardUtils';
 
-const ChessComponent = (props)=>{
-  const {iconClassName, children} = props;
+function ChessComponent(props) {
+  const { iconClassName, children } = props;
   // return <div className={iconClassName} style={{background: 'red'}}><MdAccessibility className={iconClassName}/>🐻</div>
-  return <div className={`${iconClassName}`}>
-    <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox='0 0 512 512'>
-        <text x='50%' y="50%" dominantBaseline="central" textAnchor="middle" style={{fontSize: "256px"}} >
+  return (
+    <div className={`${iconClassName}`}>
+      <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 512 512">
+        <text x="50%" y="50%" dominantBaseline="central" textAnchor="middle" style={{ fontSize: '256px' }}>
           {children}
         </text>
-    </svg>
+      </svg>
     </div>
-  ;
+  );
 }
 
 class ChessItem extends React.Component {
   constructor(props, context) {
     super(props, context);
-    this.state = {}
+    this.state = {};
   }
 
   componentWillReceiveProps(nextProps) {
   }
 
   render() {
-    const {player, type, beSelected, canBeMoveTo, onSelect, onMoveTo, canBeSelect, typeChangeInfo} = this.props;
-    const { playerNames= ['🐻', '🐸'] } = this.props;
+    const {
+      player, type, beSelected, canBeMoveTo, onSelect, onMoveTo, canBeSelect, typeChangeInfo,
+    } = this.props;
+    const { playerNames = ['🐻', '🐸'] } = this.props;
     const onClick = () => {
       if (canBeMoveTo) {
         onMoveTo();
@@ -44,26 +47,23 @@ class ChessItem extends React.Component {
     };
     let iconClassName = `chess-item ${player == 1 ? 'enemy' : ''} `;
     if (type === ChessTypes.NONE) {
-      if (typeChangeInfo === "LEAVE")
-        iconClassName += 'leave ';
-      else if (typeChangeInfo === "DIE") {
+      if (typeChangeInfo === 'LEAVE') { iconClassName += 'leave '; } else if (typeChangeInfo === 'DIE') {
         iconClassName += 'die ';
       } else {
         iconClassName += 'normal-none  ';
       }
+    } else if (typeChangeInfo === 'ARRIVE') {
+      iconClassName += 'arrive ';
     } else {
-      if (typeChangeInfo === "ARRIVE") {
-        iconClassName += 'arrive ';
-      } else {
-        iconClassName += 'normal-display ';
-      }
+      iconClassName += 'normal-display ';
     }
 
-    let icon = playerNames[player] || '🐶';
+    const icon = playerNames[player] || '🐶';
     return (
       <div
         className={`chess-block ${beSelected ? 'selected' : ''} ${canBeMoveTo ? 'can-be-move-to' : ''} ${canBeSelect && !beSelected ? 'can-be-select' : ''} `}
-        onClick={onClick}>
+        onClick={onClick}
+      >
         <ChessComponent iconClassName={iconClassName}>{icon}</ChessComponent>
       </div>
     );
@@ -77,8 +77,7 @@ class ChessItem extends React.Component {
 //   text: PropTypes.string.isRequired
 // }
 
-
-const mapStateToProps = (state, {chessId, player, type}) => ({
+const mapStateToProps = (state, { chessId, player, type }) => ({
   beSelected: state.chessBoard.selected && state.chessBoard.selectId == chessId,
   canBeMoveTo: judgeCanBeMoveTo(state.chessBoard, chessId),
   canBeSelect: state.player.nowPlayer === player && state.player.local.indexOf(player) != -1 && type === ChessTypes.NORMAL,

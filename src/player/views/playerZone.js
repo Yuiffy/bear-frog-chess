@@ -12,16 +12,16 @@ class PlayerZone extends Component {
   }
 
   componentDidUpdate(preProps) {
-    const isNowPlayer = this.props.isNowPlayer;
-    const onRemoveCard = this.props.onRemoveCard;
-    const isComputer = this.props.isComputer;
-    const player = this.props.player;
-    const cards = this.props.cards;
-    const nowPlayer = this.props.nowPlayer;
-    const life = this.props.life;
+    const { isNowPlayer } = this.props;
+    const { onRemoveCard } = this.props;
+    const { isComputer } = this.props;
+    const { player } = this.props;
+    const { cards } = this.props;
+    const { nowPlayer } = this.props;
+    const { life } = this.props;
     console.log('AI', isNowPlayer, isComputer, player, nowPlayer);
     if (isNowPlayer && isComputer && life > 0) {
-      const length = cards.length;
+      const { length } = cards;
       const selectCardIndex = Math.floor(Math.random() * length);
       const selectCardId = cards[selectCardIndex].id;
       onRemoveCard(selectCardId, player);
@@ -30,11 +30,11 @@ class PlayerZone extends Component {
 
   render() {
     // const cards = this.props.cards;
-    const player = this.props.player;
-    const life = this.props.life;
-    const onRemoveCard = this.props.onRemoveCard;
-    const noCard = this.props.noCard;
-    const isComputer = this.props.isComputer;
+    const { player } = this.props;
+    const { life } = this.props;
+    const { onRemoveCard } = this.props;
+    const { noCard } = this.props;
+    const { isComputer } = this.props;
     if (noCard && !isComputer) {
       let str = `出完了！你还剩${life}星星，`;
       if (life === 3) str += '能够全身而退，无敌。';
@@ -47,36 +47,37 @@ class PlayerZone extends Component {
     return (
       <div className="playerZone">
         {
-                    life <= 0 ?
-                      <div className="dead">
-                            死了。
-                      </div>
-                        :
-                        // life!==0
-                      <div>
-                        {player}
-                        {/* <div className="cardZone"> */}
-                        {/* { */}
-                        {/* cards.map((item) => ( */}
-                        {/* <CardItem */}
-                        {/* key={item.id} */}
-                        {/* type={item.type} */}
-                        {/* player={player} */}
-                        {/* onRemove={() => onRemoveCard(item.id, player)} */}
-                        {/* /> */}
-                        {/* )) */}
-                        {/* } */}
-                        {/* </div> */}
-                        <div className="lifeZone">
-                          {
-                                    Array.from(Array(life), () => '★').map(item => (
+                    life <= 0
+                      ? (
+                        <div className="dead">
+                          死了。
+                        </div>
+                      )
+                      : life !== 0(
+                        <div>
+                          {player}
+                          {/* <div className="cardZone"> */}
+                          {/* { */}
+                          {/* cards.map((item) => ( */}
+                          {/* <CardItem */}
+                          {/* key={item.id} */}
+                          {/* type={item.type} */}
+                          {/* player={player} */}
+                          {/* onRemove={() => onRemoveCard(item.id, player)} */}
+                          {/* /> */}
+                          {/* )) */}
+                          {/* } */}
+                          {/* </div> */}
+                          <div className="lifeZone">
+                            {
+                                    Array.from(Array(life), () => '★').map((item) => (
                                       <span>{item}</span>
                                     ))
                                 }
-                        </div>
-                      </div>
-                }
-
+                          </div>
+                        </div>,
+                      )
+}
 
       </div>
     );
@@ -97,11 +98,10 @@ const mapStateToProps = (state, ownProps) => ({
   nowPlayer: state.player.nowPlayer,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   onRemoveCard: (id, player) => {
     dispatch(setLocalPlayer(id, player));
   },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PlayerZone);
-

@@ -1,9 +1,8 @@
-import {SELECT, MOVE_TO, SET_BOARD} from './actionTypes.js';
-import {findChessPos, socketContainer} from '../utils';
-import {ChessTypes} from '../constants.js';
-import {createBearFrogBoard} from '../utils/';
-import {gameMessage} from '../utils/controlClients/SocketClient';
-import {doMoveAction} from "../utils/boardUtils";
+import { SELECT, MOVE_TO, SET_BOARD } from './actionTypes.js';
+import { findChessPos, socketContainer, createBearFrogBoard } from '../utils';
+import { ChessTypes } from '../constants.js';
+import { gameMessage } from '../utils/controlClients/SocketClient';
+import { doMoveAction } from '../utils/boardUtils';
 
 export default (state = {}, action) => {
   switch (action.type) {
@@ -17,8 +16,8 @@ export default (state = {}, action) => {
     }
     case MOVE_TO: {
       const now = findChessPos(state.board, state.selectId);
-      const {x, y} = findChessPos(state.board, action.id);
-      const board = state.board;
+      const { x, y } = findChessPos(state.board, action.id);
+      const { board } = state;
       console.log(now.x, now.y, x, y, state.selectId, action.id, state.board);
       const newBoard = doMoveAction(board, now, x, y);
       if (socketContainer.getSocketClient()) {
@@ -32,12 +31,12 @@ export default (state = {}, action) => {
       };
     }
     case SELECT: {
-      return state.filter(todoItem => todoItem.id !== action.id);
+      return state.filter((todoItem) => todoItem.id !== action.id);
     }
     case SET_BOARD: {
       console.log('SET_BOARD!REDUCER, got action:', action);
       let newBoard = action.board;
-      if(!newBoard){
+      if (!newBoard) {
         newBoard = createBearFrogBoard();
         // 如果打AI的话，要这样发新的棋盘给AI让它动一下，否则会两边都没法动。这个临时在这加着，应该有更好的实现方式。
         if (socketContainer.getSocketClient()) {

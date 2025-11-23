@@ -66,18 +66,38 @@ const getInitState = () => {
   return initValues;
 };
 
-class SocketContainerClass{
-  constructor(){
+class SocketContainerClass {
+  constructor() {
     this.socketClient = null;
     this.setSocketClient = this.setSocketClient.bind(this);
     this.getSocketClient = this.getSocketClient.bind(this);
   }
+
   setSocketClient(s) {
     this.socketClient = s;
   }
-  getSocketClient () {return this.socketClient}
+
+  getSocketClient() { return this.socketClient; }
 }
 
 const socketContainer = new SocketContainerClass();
 
-export { findChessPos, createBearFrogBoard, getInitState, socketContainer };
+/**
+ * 根据当前页面协议（http/https）动态构建 WebSocket URL
+ * @param {string} host - WebSocket 主机和路径（不包含协议，例如：example.com:3000/ws 或 //example.com:3000/ws）
+ * @returns {string} - 完整的 WebSocket URL（ws:// 或 wss://）
+ */
+const getWebSocketUrl = (host) => {
+  // 获取当前页面协议（http: 或 https:）
+  const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+
+  // 如果 host 已经包含 //，直接拼接协议
+  // 否则添加 //
+  const normalizedHost = host.startsWith('//') ? host : `//${host}`;
+
+  return `${protocol}${normalizedHost}`;
+};
+
+export {
+  findChessPos, createBearFrogBoard, getInitState, socketContainer, getWebSocketUrl,
+};

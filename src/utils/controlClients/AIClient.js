@@ -2,17 +2,19 @@
 // const socketPath = '/socket';
 
 import AI from "../ai/ai";
-import {judgeGameOver} from "../boardUtils";
+import { judgeGameOver } from "../boardUtils";
 
 export default class AIClient {
-  funcs = {
-    onMessage: () => {
-    },
-    onOpen: () => {
-    }
-  }
-  store = {
-    timeout: 0
+  constructor() {
+    this.funcs = {
+      onMessage: () => {
+      },
+      onOpen: () => {
+      }
+    };
+    this.store = {
+      timeout: 0
+    };
   }
 
   connect(host) {
@@ -29,7 +31,7 @@ export default class AIClient {
     console.log("AIClient send", data);
     clearTimeout(this.store.timeout);
     this.store.timeout = setTimeout(() => {
-      const {nowPlayer, isRoundEnd} = data; // nowPlayer好像经常是null，那边没好好传过来，待修复
+      const { nowPlayer, isRoundEnd } = data; // nowPlayer好像经常是null，那边没好好传过来，待修复
 
       if (judgeGameOver(data.board).gameOver) return; //游戏已经结束的话，就不用计算了
 
@@ -41,7 +43,7 @@ export default class AIClient {
         needMessage: false,
         nowPlayer: newNowPlayer
       };
-      this.funcs.onMessage({data: JSON.stringify(resData)});
+      this.funcs.onMessage({ data: JSON.stringify(resData) });
     }, 1000);
   }
 
