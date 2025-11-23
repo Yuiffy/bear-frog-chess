@@ -1,4 +1,4 @@
-import { ChessTypes } from '../constants';
+import ChessTypes from '../constants';
 import { findChessPos } from './index';
 
 export const flatten = (arr) => arr.reduce((pre, val) => pre.concat(Array.isArray(val) ? flatten(val) : val), []);

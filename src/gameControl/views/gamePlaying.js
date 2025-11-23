@@ -2,14 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './style.css';
 import { Link, Switch, Route } from 'react-router-dom';
-import { setBoard } from '../../chessBoard/actions.js';
 import { reset, updateSocket } from '../actions.js';
 import SocketClient, { gameMessage } from '../../utils/controlClients/SocketClient';
 import { roundEnd, setLocalPlayer } from '../../player/actions';
-import { moveTo } from '../../chessBoard/actions';
+import { setBoard, moveTo } from '../../chessBoard/actions';
 import { socketContainer, getWebSocketUrl } from '../../utils';
 import { getNextPosList } from '../../chessBoard/views/chessItem';
-import { ChessTypes } from '../../constants';
+import ChessTypes from '../../constants';
 import AIClient from "../../utils/controlClients/AIClient";
 import { flatten, judgeGameOver } from "../../utils/boardUtils";
 
@@ -20,7 +19,7 @@ class PlayControl extends Component {
     const { roomId, vsAI, player } = props;
     this.props.setBoard();
     if (props.roomId || vsAI) {
-      this.props.setLocalPlayer([parseInt(props.player)]);
+      this.props.setLocalPlayer([parseInt(props.player, 10)]);
 
       // 根据当前页面协议（http/https）动态选择 ws/wss
       const wsHost = getWebSocketUrl(process.env.REACT_APP_WS_HOST + props.roomId);
@@ -78,19 +77,23 @@ class PlayControl extends Component {
     if (params.playerNames) {
       playerNames = JSON.parse(params.playerNames);
     }
-    return playerNames
+    return playerNames;
   }
 
   render() {
     const {
-      ChessBoard, player, gameOver, roomId, params
+      ChessBoard, player, gameOver, roomId, params,
     } = this.props;
-
 
     return (
       <div className="full-window">
         <div className="inner-window">
-          {roomId ? <div>房间{roomId}</div> : ''}
+          {roomId ? (
+            <div>
+              房间
+              {roomId}
+            </div>
+          ) : ''}
           <div><ChessBoard playerNames={this.getPlayerNames()} /></div>
           <div>{player}</div>
           <div>规则：本回合移动的己方棋子和其移动后相邻的棋子，两个棋子组成炮台，杀死处在该炮台连线上相邻的敌方棋子。如果这条直线上有4个棋子则杀不掉。当有玩家只剩1颗棋子或者无法行动时输掉。</div>
@@ -102,9 +105,9 @@ class PlayControl extends Component {
 
 
 const mapStateToProps = (state) => {
-  const board = state.chessBoard.board;
-
-  const { gameOver, winners } = judgeGameOver(board, state.player, state.player.order);
+  const { board } = state.chessBoard;
+  const { player } = state;
+  const { gameOver, winners } = judgeGameOver(board, player, player.order);
   // console.log(flatBoard, gameOver);
   return {
     gameOver,
@@ -114,7 +117,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   setLocalPlayer: (local) => {
     dispatch(setLocalPlayer(local));
   },

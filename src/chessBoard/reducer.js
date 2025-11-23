@@ -1,10 +1,10 @@
 import { SELECT, MOVE_TO, SET_BOARD } from './actionTypes.js';
 import { findChessPos, socketContainer, createBearFrogBoard } from '../utils';
-import { ChessTypes } from '../constants.js';
+import ChessTypes from '../constants.js';
 import { gameMessage } from '../utils/controlClients/SocketClient';
 import { doMoveAction } from '../utils/boardUtils';
 
-export default (state = {}, action) => {
+export default (state = {}, action = {}) => {
   switch (action.type) {
     case SELECT: {
       console.log(action);
@@ -29,9 +29,6 @@ export default (state = {}, action) => {
         board: newBoard,
         selected: false,
       };
-    }
-    case SELECT: {
-      return state.filter((todoItem) => todoItem.id !== action.id);
     }
     case SET_BOARD: {
       console.log('SET_BOARD!REDUCER, got action:', action);

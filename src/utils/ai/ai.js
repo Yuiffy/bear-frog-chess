@@ -1,5 +1,5 @@
 import { doMoveAction, getNextPosList } from '../boardUtils';
-import { ChessTypes } from '../../constants';
+import ChessTypes from '../../constants';
 import { findChessPos } from '../index';
 
 /**

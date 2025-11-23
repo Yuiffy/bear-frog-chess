@@ -6,7 +6,7 @@ import { GiBearFace, GiFrogPrince } from 'react-icons/gi';
 // import MdAccessible from 'react-icons/lib/md/accessible';
 // import MdPets from 'react-icons/lib/md/pets';
 // import * as FontAwesome from 'react-icons/lib/fa'
-import { ChessTypes } from '../../constants.js';
+import ChessTypes from '../../constants.js';
 import { findChessPos } from '../../utils';
 import { judgeCanBeMoveTo, getNextPosList } from '../../utils/boardUtils';
 

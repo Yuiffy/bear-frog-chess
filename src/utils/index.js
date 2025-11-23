@@ -1,7 +1,7 @@
 /**
  * Created by yuiff on 2018/3/31.
  */
-import { ChessTypes } from '../constants.js';
+import ChessTypes from '../constants.js';
 
 const findChessPos = (board, chessId) => {
   let selectPos = {};
