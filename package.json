@@ -8,6 +8,7 @@
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.19.0",
+    "cross-env": "^7.0.3",
     "gh-pages": "^1.2.0",
     "npm-lifecycle": "^2.1.1",
     "react-scripts": "3.1.1",
@@ -16,7 +17,7 @@
   },
   "dependencies": {
     "@material-ui/core": "^4.9.11",
-    "node-sass": "^4.14.0",
+    "sass": "^1.32.0",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-copy-to-clipboard": "^5.0.2",
@@ -32,12 +33,12 @@
     "qs": "^6.9.3"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "cross-env NODE_OPTIONS=--openssl-legacy-provider react-scripts start",
+    "build": "cross-env NODE_OPTIONS=--openssl-legacy-provider react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "deploy": "gh-pages -d build",
-    "build-deploy": "react-scripts build && gh-pages -d build"
+    "build-deploy": "cross-env NODE_OPTIONS=--openssl-legacy-provider react-scripts build && gh-pages -d build"
   },
   "homepage": "https://www.daifish.top/bear-frog-chess",
   "proxy": "http://localhost:5001",
