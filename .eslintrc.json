@@ -54,5 +54,32 @@
         "spaced-comment": "warn",
         "arrow-body-style": "warn",
         "class-methods-use-this": "warn"
-    }
+    },
+    "overrides": [
+        {
+            "files": [
+                "src/App.js",
+                "src/index.js",
+                "src/game/**/*.js",
+                "src/pages/**/*.js",
+                "src/components/**/*.js"
+            ],
+            "env": {
+                "jest": true
+            },
+            "rules": {
+                "jsx-a11y/label-has-associated-control": "off",
+                "jsx-a11y/no-noninteractive-element-interactions": "off",
+                "max-len": "off",
+                "no-nested-ternary": "off",
+                "no-param-reassign": "off",
+                "no-underscore-dangle": "off",
+                "object-curly-newline": "off",
+                "prefer-destructuring": "off",
+                "react/jsx-one-expression-per-line": "off",
+                "react/jsx-props-no-spreading": "off",
+                "react/prop-types": "off"
+            }
+        }
+    ]
 }

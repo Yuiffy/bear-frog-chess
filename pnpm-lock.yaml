@@ -53,6 +53,9 @@ importers:
       socket.io-client:
         specifier: ^2.3.0
         version: 2.5.0
+      ws:
+        specifier: ^8.18.3
+        version: 8.18.3
     devDependencies:
       eslint:
         specifier: ^8.57.0
