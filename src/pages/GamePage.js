@@ -143,7 +143,9 @@ function GameWorkspace({
   const resultWinner = game.status === 'finished' ? playerData[game.winner] : null;
   const localWinner = game.status === 'finished' && localPlayers.includes(game.winner);
   const resultTone = mode === 'local' ? 'neutral' : localWinner ? 'win' : 'lose';
-  const resultTitle = mode === 'local' ? '对局结束' : localWinner ? '胜利！' : '失败';
+  const resultTitle = mode === 'local' && resultWinner
+    ? `${resultWinner.name}获胜`
+    : localWinner ? '胜利！' : '失败';
   const resultReason = game.endReason === 'blocked' ? '对手已无合法移动' : '对手仅剩一枚棋子';
   const isOnlinePlayer = mode === 'online' && (seat === 0 || seat === 1);
   const resultActionLabel = mode === 'online'

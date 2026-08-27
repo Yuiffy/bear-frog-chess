@@ -31,3 +31,5 @@ Original prompt: 我们这个熊蛙棋之前用的联机方式很菜，并且更
 ## Latest update
 
 - Added an automatic end-of-game result modal with clear victory/failure state, winner, end reason, and context-appropriate restart/rematch actions.
+- Browser QA verified local completion, AI failure state, modal restart behavior, and 390px mobile layout without console errors.
+- `npm test -- --watchAll=false --runInBand`, `npm run test:server`, `npm run lint`, and `npm run build` pass; lint retains only pre-existing warnings.
