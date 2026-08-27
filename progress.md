@@ -27,3 +27,7 @@ Original prompt: 我们这个熊蛙棋之前用的联机方式很菜，并且更
 - Production build completes successfully.
 - Desktop and mobile browser QA pass without console errors, horizontal overflow, or overlapping UI.
 - Two-client online play stays synchronized and pauses correctly when a player disconnects.
+
+## Latest update
+
+- Added an automatic end-of-game result modal with clear victory/failure state, winner, end reason, and context-appropriate restart/rematch actions.

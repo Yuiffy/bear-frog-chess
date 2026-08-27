@@ -998,6 +998,123 @@ summary:focus-visible {
   font-size: 14px;
 }
 
+.result-modal {
+  width: min(460px, 100%);
+  overflow: hidden;
+  border-top: 4px solid var(--teal);
+}
+
+.result-modal--lose {
+  border-top-color: var(--coral);
+}
+
+.result-modal--neutral {
+  border-top-color: var(--sun);
+}
+
+.result-modal .modal__header {
+  height: 54px;
+  padding: 0 20px;
+  border-bottom: 0;
+  background: transparent;
+}
+
+.result-modal .modal__header h2 {
+  color: #62706d;
+  font-size: 11px;
+}
+
+.result-modal__body {
+  padding: 4px 28px 28px;
+  text-align: center;
+}
+
+.result-modal__mark {
+  display: grid;
+  width: 82px;
+  height: 82px;
+  margin: 0 auto 17px;
+  place-items: center;
+  border: 2px solid var(--teal);
+  border-radius: 50%;
+  background: #dce7e0;
+  box-shadow: 0 10px 26px rgba(20, 123, 112, 0.16);
+  animation: result-pop 260ms ease both;
+}
+
+.result-modal--lose .result-modal__mark {
+  border-color: var(--coral);
+  background: #f7ded8;
+  box-shadow: 0 10px 26px rgba(231, 96, 79, 0.14);
+}
+
+.result-modal--neutral .result-modal__mark {
+  border-color: var(--sun);
+  background: #fbefc6;
+  box-shadow: 0 10px 26px rgba(242, 193, 78, 0.18);
+}
+
+.result-modal__mark span {
+  font-family: "Segoe UI Emoji", "Apple Color Emoji", sans-serif;
+  font-size: 39px;
+  line-height: 1;
+}
+
+.result-modal__title {
+  margin: 0;
+  color: var(--teal);
+  font-size: 34px;
+  line-height: 1.1;
+}
+
+.result-modal--lose .result-modal__title {
+  color: var(--coral);
+}
+
+.result-modal--neutral .result-modal__title {
+  color: #9a7414;
+}
+
+.result-modal__winner {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 100%;
+  margin: 14px auto 0;
+  overflow: hidden;
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 800;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.result-modal__winner-label {
+  color: #62706d;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.result-modal__reason {
+  margin: 17px 0 0;
+  padding: 11px 12px;
+  border-top: 1px solid var(--line-light);
+  border-bottom: 1px solid var(--line-light);
+  color: #62706d;
+  font-size: 12px;
+}
+
+.result-modal__actions {
+  justify-content: center;
+  padding: 18px 22px 22px;
+  border-top: 1px solid var(--line-light);
+}
+
+.result-modal__actions .button {
+  min-width: 0;
+  flex: 1 1 0;
+}
+
 @keyframes rise-in {
   from { opacity: 0; transform: translateY(18px); }
   to { opacity: 1; transform: translateY(0); }
@@ -1016,6 +1133,11 @@ summary:focus-visible {
 @keyframes modal-in {
   from { opacity: 0; transform: translateY(12px) scale(0.985); }
   to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes result-pop {
+  from { opacity: 0; transform: scale(0.78); }
+  to { opacity: 1; transform: scale(1); }
 }
 
 @media (max-width: 980px) {

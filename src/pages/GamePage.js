@@ -19,7 +19,9 @@ import BoardCanvas from '../game/BoardCanvas';
 import { copyText, getInviteUrl, toggleFullscreen } from '../game/browser';
 import useLocalGame from '../game/useLocalGame';
 import useOnlineRoom from '../game/useOnlineRoom';
-import { Modal, RulesDialog, SettingsDialog } from '../components/GameDialogs';
+import {
+  Modal, ResultDialog, RulesDialog, SettingsDialog,
+} from '../components/GameDialogs';
 import IconButton from '../components/IconButton';
 
 const rulesModule = require('../game/rules');
@@ -92,6 +94,7 @@ function GameWorkspace({
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [rulesOpen, setRulesOpen] = useState(false);
   const [restartOpen, setRestartOpen] = useState(false);
+  const [resultOpen, setResultOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const counts = useMemo(() => countPieces(game.board), [game.board]);
   const pieces = playerData.map((player, index) => player.piece || settings.pieces[index]);
@@ -108,6 +111,10 @@ function GameWorkspace({
   useEffect(() => {
     setSelected(null);
   }, [game.moveNumber, game.turn]);
+
+  useEffect(() => {
+    setResultOpen(game.status === 'finished');
+  }, [game.status]);
 
   const handleCell = useCallback((position) => {
     if (!canAct) {
@@ -132,6 +139,16 @@ function GameWorkspace({
     statusTitle = `${playerData[game.winner].name}获胜`;
     statusDetail = game.endReason === 'blocked' ? '对手无路可走' : '对手仅剩一子';
   }
+
+  const resultWinner = game.status === 'finished' ? playerData[game.winner] : null;
+  const localWinner = game.status === 'finished' && localPlayers.includes(game.winner);
+  const resultTone = mode === 'local' ? 'neutral' : localWinner ? 'win' : 'lose';
+  const resultTitle = mode === 'local' ? '对局结束' : localWinner ? '胜利！' : '失败';
+  const resultReason = game.endReason === 'blocked' ? '对手已无合法移动' : '对手仅剩一枚棋子';
+  const isOnlinePlayer = mode === 'online' && (seat === 0 || seat === 1);
+  const resultActionLabel = mode === 'online'
+    ? (rematchVotes.includes(seat) ? '等待对手' : '再来一局')
+    : '重新开局';
 
   useEffect(() => {
     window.render_game_to_text = () => JSON.stringify({
@@ -301,6 +318,23 @@ function GameWorkspace({
         onSave={onUpdateSettings}
       />
       <RulesDialog open={rulesOpen} onClose={() => setRulesOpen(false)} />
+      <ResultDialog
+        open={resultOpen && game.status === 'finished'}
+        onClose={() => setResultOpen(false)}
+        resultTone={resultTone}
+        resultTitle={resultTitle}
+        winnerName={resultWinner ? resultWinner.name : ''}
+        winnerPiece={resultWinner ? resultWinner.piece : ''}
+        reason={resultReason}
+        onAction={mode === 'online' ? onRematch : () => {
+          onRestart();
+          setResultOpen(false);
+        }}
+        actionLabel={resultActionLabel}
+        actionDisabled={mode === 'online' && rematchVotes.includes(seat)}
+        showAction={mode !== 'online' || isOnlinePlayer}
+        onMenu={() => historyNavigation.push('/')}
+      />
       <Modal open={restartOpen} title="重新开局" onClose={() => setRestartOpen(false)} className="confirm-modal">
         <p>当前棋谱会被清空。</p>
         <footer className="modal__actions">

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { FiCheck, FiX } from 'react-icons/fi';
+import {
+  FiArrowLeft, FiCheck, FiRefreshCw, FiX,
+} from 'react-icons/fi';
 
 import IconButton from './IconButton';
 import { applyTheme, THEME_PRESETS } from '../game/settings';
@@ -152,6 +154,54 @@ export function SettingsDialog({
           <FiCheck />
           保存
         </button>
+      </footer>
+    </Modal>
+  );
+}
+
+export function ResultDialog({
+  open,
+  onClose,
+  resultTone,
+  resultTitle,
+  winnerName,
+  winnerPiece,
+  reason,
+  onAction,
+  actionLabel,
+  actionDisabled = false,
+  showAction = true,
+  onMenu,
+}) {
+  return (
+    <Modal open={open} title="对局结果" onClose={onClose} className={`result-modal result-modal--${resultTone}`}>
+      <div className="result-modal__body">
+        <div className="result-modal__mark" aria-hidden="true">
+          <span>{winnerPiece}</span>
+        </div>
+        <h3 className="result-modal__title">{resultTitle}</h3>
+        <p className="result-modal__winner">
+          <span className="result-modal__winner-label">获胜方</span>
+          {winnerName}
+        </p>
+        <p className="result-modal__reason">{reason}</p>
+      </div>
+      <footer className="modal__actions result-modal__actions">
+        <button type="button" className="button button--ghost" onClick={onMenu}>
+          <FiArrowLeft />
+          返回主菜单
+        </button>
+        {showAction ? (
+          <button
+            type="button"
+            className="button button--primary"
+            disabled={actionDisabled}
+            onClick={onAction}
+          >
+            <FiRefreshCw />
+            {actionLabel}
+          </button>
+        ) : null}
       </footer>
     </Modal>
   );
